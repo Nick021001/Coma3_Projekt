@@ -1,6 +1,8 @@
 #ifndef BILDCONTROLLER_H
 #define BILDCONTROLLER_H
 
+//test
+
 #include <QObject>
 #include <QMouseEvent>
 #include <QEvent>

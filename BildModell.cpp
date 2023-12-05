@@ -24,3 +24,8 @@ void BildModell::scaleImage(int scale)
     //this->pixelSize = image.size();
     emit BildModell::imageChanged();
 }
+
+void BildModell::rotateImage(int degree)
+{
+    degree = 1;
+}
