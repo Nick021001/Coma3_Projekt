@@ -32,7 +32,7 @@ signals:
 
 public slots:
     void scaleImage(int scale);
-    //void rotateImage() const;
+    void rotateImage(int degree);
 
 private:
     QImage image;

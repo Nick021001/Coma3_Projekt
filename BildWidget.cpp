@@ -28,7 +28,7 @@ BildWidget::BildWidget()
     scale_button->setRange(1, 1000);
 
     //Rotate Button
-    QDial* rotate_button = new QDial();
+    QSlider* rotate_slider = new QSlider(Qt::Horizontal);
 
     //edge detektion
     QPushButton* edge_detektion_button = new QPushButton("edge detektion");
@@ -36,7 +36,7 @@ BildWidget::BildWidget()
     //Toolbar
     QToolBar* toolbar = new QToolBar();
     toolbar->addWidget(scale_button);
-    toolbar->addWidget(rotate_button);
+    toolbar->addWidget(rotate_slider);
     toolbar->addWidget(edge_detektion_button);
 
     //Pixelgrößen Button
@@ -66,6 +66,8 @@ BildWidget::BildWidget()
     //BildController* controller = new BildController(bildModell, view, this);
 
     QObject::connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
+
+    QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung
