@@ -1,7 +1,8 @@
 #include "BildView.h"
 #include "BildModell.h"
 
-#include<QPainter>
+#include <QRectF>
+#include <QPainter>
 
 BildView::BildView(BildModell& modell, QWidget* parent): QWidget(parent), pmodell(modell)
 {
@@ -13,5 +14,5 @@ BildView::BildView(BildModell& modell, QWidget* parent): QWidget(parent), pmodel
 void BildView::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
-    p.drawImage(QPoint(), this->pmodell.getImage());
+    p.drawImage(this->pmodell.getRecF(), this->pmodell.getImage());
 }

@@ -15,11 +15,17 @@ QImage BildModell::getImage() const
     return this->image;
 }
 
+QRectF BildModell::getRecF() const
+{
+    return this->rectImage;
+}
+
 void BildModell::scaleImage(int scale)
 {
     int width = this->pixelSize.width() * scale;
     int height = this->pixelSize.width() * scale;
 
+    this->rectImage.setBottomRight(QPointF(width*scale, height*scale));
     this->image = image.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     //this->pixelSize = image.size();
     emit BildModell::imageChanged();

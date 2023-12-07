@@ -3,8 +3,10 @@
 
 #include <QImage>
 #include <QWidget>
-#include <QPoint>
+#include <QPointF>
 #include <QString>
+#include <QRectF>
+#include <QSize>
 
 class BildModell: public QObject{
     Q_OBJECT
@@ -14,7 +16,8 @@ public:
     BildModell(QObject* parent ,const QString& file)
         :image(QImage(file)),
         currentMousePosition(QPoint()),
-        pixelSize(image.size())
+        pixelSize(image.size()),
+        rectImage(0, 0, pixelSize.width(), pixelSize.height())
     {}
 
     void setPos(const QPoint& pos);
@@ -24,6 +27,8 @@ public:
     QPoint getPos() const;
 
     QImage getImage() const;
+
+    QRectF getRecF() const;
 
 signals:
     void posChanged();
@@ -38,6 +43,7 @@ private:
     QImage image;
     QPoint currentMousePosition;
     QSize pixelSize;
+    QRectF rectImage;
 };
 
 #endif // BILDMODELL_H
