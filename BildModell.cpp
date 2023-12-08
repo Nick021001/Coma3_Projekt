@@ -10,7 +10,7 @@ void BildModell::setPos(const QPoint& pos)
     this->currentMousePosition = pos;
 }
 
-QImage BildModell::getImage() const
+QPixmap BildModell::getImage() const
 {
     return this->image;
 }
@@ -18,6 +18,33 @@ QImage BildModell::getImage() const
 QRectF BildModell::getRecF() const
 {
     return this->rectImage;
+}
+
+
+//public slots
+
+void BildModell::zoomIn(QString rectangle)
+{
+    if (rectangle == "75x75")
+    {
+        this->rectImage.setRect(0, 0, 75, 75);
+        this->rectImage.moveCenter(this->currentMousePosition);
+        emit BildModell::imageChanged();
+    }
+
+    else if (rectangle == "150x150")
+    {
+        this->rectImage.setRect(0, 0, 150, 150);
+        this->rectImage.moveCenter(this->currentMousePosition);
+        emit BildModell::imageChanged();
+    }
+
+    else
+    {
+        this->rectImage.setRect(0, 0, 250, 250);
+        this->rectImage.moveCenter(QPointF(100, 100));
+        emit BildModell::imageChanged();
+    }
 }
 
 void BildModell::scaleImage(int scale)

@@ -7,6 +7,8 @@
 #include <QString>
 #include <QRectF>
 #include <QSize>
+#include <QPixmap>
+
 
 class BildModell: public QObject{
     Q_OBJECT
@@ -14,7 +16,7 @@ class BildModell: public QObject{
 public:
 
     BildModell(QObject* parent ,const QString& file)
-        :image(QImage(file)),
+        :image(QPixmap(file)),
         currentMousePosition(QPoint()),
         pixelSize(image.size()),
         rectImage(0, 0, pixelSize.width(), pixelSize.height())
@@ -22,11 +24,9 @@ public:
 
     void setPos(const QPoint& pos);
 
-    //void setPixelSize(const QSize& size);
-
     QPoint getPos() const;
 
-    QImage getImage() const;
+    QPixmap getImage() const;
 
     QRectF getRecF() const;
 
@@ -38,9 +38,10 @@ signals:
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
+    void zoomIn(QString rectangle);
 
 private:
-    QImage image;
+    QPixmap image;
     QPoint currentMousePosition;
     QSize pixelSize;
     QRectF rectImage;

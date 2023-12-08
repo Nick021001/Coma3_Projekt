@@ -69,6 +69,8 @@ BildWidget::BildWidget()
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
+    QObject::connect(button_auswahl_pixelgroeße, &QComboBox::textActivated, bildModell, &BildModell::zoomIn);
+
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung
     this->addToolBar(toolbar);
