@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QPointF>
 #include <QString>
-#include <QRectF>
+#include <QRect>
 #include <QSize>
 #include <QPixmap>
 
@@ -19,7 +19,8 @@ public:
         :image(QPixmap(file)),
         currentMousePosition(QPoint()),
         pixelSize(image.size()),
-        rectImage(0, 0, pixelSize.width(), pixelSize.height())
+        rectImage(image.rect()),
+        ImageInput(image)
     {}
 
     void setPos(const QPoint& pos);
@@ -28,7 +29,7 @@ public:
 
     QPixmap getImage() const;
 
-    QRectF getRecF() const;
+    QRect getRecF() const;
 
 signals:
     void posChanged();
@@ -44,7 +45,9 @@ private:
     QPixmap image;
     QPoint currentMousePosition;
     QSize pixelSize;
-    QRectF rectImage;
+    QRect rectImage;
+    const QPixmap ImageInput;
+    int scaleFactor = 1;
 };
 
 #endif // BILDMODELL_H
