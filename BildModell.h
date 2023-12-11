@@ -8,6 +8,7 @@
 #include <QRect>
 #include <QSize>
 #include <QPixmap>
+#include <QTransform>
 
 
 class BildModell: public QObject{
@@ -46,8 +47,10 @@ private:
     QPoint currentMousePosition;
     QSize pixelSize;
     QRect rectImage;
+    QTransform transformationMatrix = QTransform();
     const QPixmap ImageInput;
     int scaleFactor = 1;
+    int rotationFactor = 0;
 };
 
 #endif // BILDMODELL_H

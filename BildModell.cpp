@@ -59,17 +59,37 @@ void BildModell::zoomIn(QString rectangle)
 
 void BildModell::scaleImage(int scale)
 {
-    //this->scaleFactor = scale;
-    int width = this->image.width() * scale;
-    int height = this->image.height() * scale;
+    int width = this->image.width() / this->scaleFactor * scale;
+    int height = this->image.height() / this->scaleFactor * scale;
 
-    this->rectImage.setBottomRight(QPoint(width*scale, height*scale));
+    this->rectImage.setBottomRight(QPoint(width, height));
     this->image = image.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    this->scaleFactor = scale;
     //this->pixelSize = image.size();
     emit BildModell::imageChanged();
 }
 
 void BildModell::rotateImage(int degree)
 {
-    degree = 1;
+    //if (rotationFactor != 0)
+    //{
+        //QTransform invertedMatrix = this->transformationMatrix.inverted();
+        //this->image = image.transformed(invertedMatrix);
+        //this->transformationMatrix.reset();
+    //}
+    int rotationChanged = this->rotationFactor - degree;
+    this->transformationMatrix = transformationMatrix.rotate(rotationChanged);
+
+    this->image = image.transformed(transformationMatrix);
+
+    QPoint bottomRightPoint(this->ImageInput.width(), this->ImageInput.height());
+    QPoint bottomRightPointTransformed = transformationMatrix.map(bottomRightPoint);
+
+    this->rectImage.setBottomRight(bottomRightPointTransformed);
+    this->rectImage.setTopLeft(QPoint(0, 0));
+
+    this->rotationFactor = degree;
+
+    emit BildModell::imageChanged();
+
 }
