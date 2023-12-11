@@ -18,5 +18,5 @@ void BildController::mouseReleaseEvent(QMouseEvent* event)
 
 bool BildController::eventFilter(QObject* watched, QEvent* event)
 {
-    return true;
+    return false;
 }

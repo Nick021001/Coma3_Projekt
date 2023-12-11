@@ -61,11 +61,15 @@ BildWidget::BildWidget()
 
     dock->setAllowedAreas(Qt::RightDockWidgetArea);
 
-    bildModell = new BildModell(this, "C:/Users/nikla/OneDrive/Dokumente/5. Semester/Computerorientierte Mathematik 3/Coma3_Projekt/Nike Fußball.jpg");
+    bildModell = new BildModell(this, "D:/Coma3_Projekt/American Football.jpg");
     BildView* view = new BildView(*bildModell, this);
-    //BildController* controller = new BildController(bildModell, view, this);
+    BildController* controller = new BildController(bildModell, view, this);
 
     QObject::connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
+
+    QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
+
+    QObject::connect(button_auswahl_pixelgroeße, &QComboBox::textActivated, bildModell, &BildModell::zoomIn);
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 

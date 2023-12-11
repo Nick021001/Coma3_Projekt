@@ -13,6 +13,7 @@ class BildView: public QWidget
 
 public:
    BildView(BildModell& modell, QWidget *parent = nullptr);
+    ~BildView(){}
 
     // QWidget interface
 protected:

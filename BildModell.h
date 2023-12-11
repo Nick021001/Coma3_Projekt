@@ -3,8 +3,13 @@
 
 #include <QImage>
 #include <QWidget>
-#include <QPoint>
+#include <QPointF>
 #include <QString>
+#include <QRect>
+#include <QSize>
+#include <QPixmap>
+#include <QTransform>
+
 
 class BildModell: public QObject{
     Q_OBJECT
@@ -12,18 +17,20 @@ class BildModell: public QObject{
 public:
 
     BildModell(QObject* parent ,const QString& file)
-        :image(QImage(file)),
+        :image(QPixmap(file)),
         currentMousePosition(QPoint()),
-        pixelSize(image.size())
+        pixelSize(image.size()),
+        rectImage(image.rect()),
+        ImageInput(image)
     {}
 
     void setPos(const QPoint& pos);
 
-    //void setPixelSize(const QSize& size);
-
     QPoint getPos() const;
 
-    QImage getImage() const;
+    QPixmap getImage() const;
+
+    QRect getRecF() const;
 
 signals:
     void posChanged();
@@ -33,11 +40,17 @@ signals:
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
+    void zoomIn(QString rectangle);
 
 private:
-    QImage image;
+    QPixmap image;
     QPoint currentMousePosition;
     QSize pixelSize;
+    QRect rectImage;
+    QTransform transformationMatrix = QTransform();
+    const QPixmap ImageInput;
+    int scaleFactor = 1;
+    int rotationFactor = 0;
 };
 
 #endif // BILDMODELL_H
