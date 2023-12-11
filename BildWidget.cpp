@@ -63,7 +63,7 @@ BildWidget::BildWidget()
 
     bildModell = new BildModell(this, "D:/Coma3_Projekt/American Football.jpg");
     BildView* view = new BildView(*bildModell, this);
-    //BildController* controller = new BildController(bildModell, view, this);
+    BildController* controller = new BildController(bildModell, view, this);
 
     QObject::connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
 
