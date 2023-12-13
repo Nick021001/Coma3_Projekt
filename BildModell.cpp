@@ -10,7 +10,7 @@ void BildModell::setPos(const QPoint& pos)
     this->currentMousePosition = pos;
 }
 
-QPixmap BildModell::getImage() const
+QImage BildModell::getImage() const
 {
     return this->image;
 }
@@ -71,22 +71,12 @@ void BildModell::scaleImage(int scale)
 
 void BildModell::rotateImage(int degree)
 {
-    //if (rotationFactor != 0)
-    //{
-        //QTransform invertedMatrix = this->transformationMatrix.inverted();
-        //this->image = image.transformed(invertedMatrix);
-        //this->transformationMatrix.reset();
-    //}
-    int rotationChanged = this->rotationFactor - degree;
-    this->transformationMatrix = transformationMatrix.rotate(rotationChanged);
+    QTransform tranformationMatrix = QTransform().rotate(degree);
+    this->image = ImageInput.transformed(tranformationMatrix);
 
-    this->image = image.transformed(transformationMatrix);
+    this->rectImage = this->transformationMatrix.mapRect(this->ImageInput.rect());
 
-    QPoint bottomRightPoint(this->ImageInput.width(), this->ImageInput.height());
-    QPoint bottomRightPointTransformed = transformationMatrix.map(bottomRightPoint);
-
-    this->rectImage.setBottomRight(bottomRightPointTransformed);
-    this->rectImage.setTopLeft(QPoint(0, 0));
+    //this->rectImage.translate(100, -1*this->rectImage.top());
 
     this->rotationFactor = degree;
 

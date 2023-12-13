@@ -17,7 +17,7 @@ class BildModell: public QObject{
 public:
 
     BildModell(QObject* parent ,const QString& file)
-        :image(QPixmap(file)),
+        :image(QImage(file)),
         currentMousePosition(QPoint()),
         pixelSize(image.size()),
         rectImage(image.rect()),
@@ -28,7 +28,7 @@ public:
 
     QPoint getPos() const;
 
-    QPixmap getImage() const;
+    QImage getImage() const;
 
     QRect getRecF() const;
 
@@ -43,12 +43,12 @@ public slots:
     void zoomIn(QString rectangle);
 
 private:
-    QPixmap image;
+    QImage image;
     QPoint currentMousePosition;
     QSize pixelSize;
     QRect rectImage;
     QTransform transformationMatrix = QTransform();
-    const QPixmap ImageInput;
+    const QImage ImageInput;
     int scaleFactor = 1;
     int rotationFactor = 0;
 };
