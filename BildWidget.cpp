@@ -39,12 +39,17 @@ BildWidget::BildWidget()
     //edge detektion
     QPushButton* edge_detektion_button = new QPushButton("edge detektion");
 
+    //convert to greyscale
+    QPushButton* grayscale = new QPushButton("Convert to Grayscale")
+
     //Toolbar
     QToolBar* toolbar = new QToolBar();
     toolbar->addWidget(scale_button);
     toolbar->addWidget(rotate_slider);
     toolbar->addWidget(winkel_zahl);
     toolbar->addWidget(edge_detektion_button);
+    toolbar->addWidget(greyscale);
+
 
     //Pixelgrößen Button
     QComboBox* button_auswahl_pixelgroeße = new QComboBox();
@@ -81,6 +86,8 @@ BildWidget::BildWidget()
     QObject::connect(button_auswahl_pixelgroeße, &QComboBox::textActivated, bildModell, &BildModell::zoomIn);
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
+
+    QObject::connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscale);
 
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung
