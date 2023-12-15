@@ -76,8 +76,6 @@ void BildModell::rotateImage(int degree)
 
     this->rectImage = this->transformationMatrix.mapRect(this->ImageInput.rect());
 
-    //this->rectImage.translate(100, -1*this->rectImage.top());
-
     this->rotationFactor = degree;
 
     emit BildModell::imageChanged();
