@@ -40,7 +40,7 @@ BildWidget::BildWidget()
     QPushButton* edge_detektion_button = new QPushButton("edge detektion");
 
     //convert to greyscale
-    QPushButton* grayscale = new QPushButton("Convert to Grayscale")
+    QPushButton* grayscale = new QPushButton("Convert to Grayscale");
 
     //Toolbar
     QToolBar* toolbar = new QToolBar();
@@ -48,7 +48,7 @@ BildWidget::BildWidget()
     toolbar->addWidget(rotate_slider);
     toolbar->addWidget(winkel_zahl);
     toolbar->addWidget(edge_detektion_button);
-    toolbar->addWidget(greyscale);
+    toolbar->addWidget(grayscale);
 
 
     //Pixelgrößen Button
