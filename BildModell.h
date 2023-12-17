@@ -9,6 +9,7 @@
 #include <QSize>
 #include <QPixmap>
 #include <QTransform>
+#include "SobelOperator.h"
 
 
 class BildModell: public QObject{
@@ -42,6 +43,7 @@ public slots:
     void rotateImage(int degree);
     void zoomIn(QString rectangle);
     void grayscale();
+    void edgeDetektion();
 
 private:
     QImage image;

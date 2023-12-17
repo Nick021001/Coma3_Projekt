@@ -98,3 +98,6 @@ void BildModell::grayscale(){
     emit BildModell::imageChanged();
 }
 
+void BildModell::edgeDetektion()
+{}
+
