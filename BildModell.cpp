@@ -1,6 +1,6 @@
 #include "BildModell.h"
 
-QPoint BildModell::getPos() const
+const QPoint& BildModell::getPos() const
 {
     return this->currentMousePosition;
 }
@@ -10,12 +10,12 @@ void BildModell::setPos(const QPoint& pos)
     this->currentMousePosition = pos;
 }
 
-QImage BildModell::getImage() const
+const QImage& BildModell::getImage() const
 {
     return this->image;
 }
 
-QRect BildModell::getRecF() const
+const QRect& BildModell::getRecF() const
 {
     return this->rectImage;
 }
@@ -78,14 +78,14 @@ void BildModell::rotateImage(int degree)
 
     this->rotationFactor = degree;
 
+    rotationFactor =0;
+
     emit BildModell::imageChanged();
 
 }
 
 
 void BildModell::grayscale(){
-    //Convert QPixmap to QImage for pixelwise transformation
-    //QImage originalImage = this->image.toImage();
     QImage grayscaleImage(this->image.size(), QImage::Format_Grayscale8);
     for (int y = 0; y < this->image.height(); ++y) {
         for (int x = 0; x < this->image.width(); ++x) {
@@ -94,10 +94,14 @@ void BildModell::grayscale(){
         }
     }
 
-    this->image = grayscaleImage; // Convert QImage back to QPixmap
+    this->image = grayscaleImage;
     emit BildModell::imageChanged();
 }
 
 void BildModell::edgeDetektion()
-{}
+{
+    SobelOperator edgeImage(this->image);
+    this->image = edgeImage.applySobel();
+    emit BildModell::imageChanged();
+}
 

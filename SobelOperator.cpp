@@ -12,35 +12,36 @@ SobelOperator::SobelOperator(const QImage& image)
         for(int j = 0; j < imageHeight; j++)
         {
             QColor Pixel = image.pixelColor(i, j);
-            this->push_back(Pixel.red());
+            int greyValue = 0.2989 * Pixel.red() + 0.5870 * Pixel.green() + 0.1140 * Pixel.blue();
+            this->push_back(greyValue);
         }
     }
 }
 
-QImage SobelOperator::applySobel()
-{
+QImage SobelOperator::applySobel() {
     vector<int> sobelGx = {1, 0, -1, 2, 0, -2, 1, 0, -1};
     vector<int> sobelGy = {1, 2, 1, 0, 0, 0, -1, -2, -1};
 
-    QImage newImage(imageWidth, imageHeight, QImage::Format_Grayscale8);
+    QImage newImage(this->imageWidth, this->imageHeight, QImage::Format_Grayscale8);
 
-    for (int i = 0; i < this->imageWidth; i++)
-    {
-        for (int j = 1; j < this->imageHeight - 1; j++)
-        {
-            int currentIndex = i*imageWidth + j;
+    for (int i = 1; i < this->imageWidth - 1; i++) {
+        for (int j = 1; j < this->imageHeight - 1 ; j++) {
             int sumGx = 0;
             int sumGy = 0;
-            for (int k = currentIndex; k <= currentIndex + 8; k++)
-            {
-                sumGx += this->at(k) * sobelGx[k - currentIndex];
-                sumGy += this->at(k) * sobelGy[k - currentIndex];
-
-                int PixelValue = sqrt(pow(sumGx, 2) + pow(sumGy, 2));
-
-                newImage.setPixel(i, j, PixelValue);
+            for (int k = -1; k <= 1; k++) {
+                for (int l = -1; l <= 1; l++) {
+                    int currentIndex = (i + k) * imageHeight + (j + l);
+                    sumGx += this->at(currentIndex) * sobelGx[(k + 1) * 3 + (l + 1)];
+                    sumGy += this->at(currentIndex) * sobelGy[(k + 1) * 3 + (l + 1)];
+                }
             }
+
+            int pixelValue = sqrt(pow(sumGx, 2) + pow(sumGy, 2));
+            pixelValue = qBound(0, pixelValue, 255);
+
+            newImage.setPixel(i, j, qRgb(pixelValue, pixelValue, pixelValue));
         }
     }
 
+    return newImage;
 }

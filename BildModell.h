@@ -27,11 +27,11 @@ public:
 
     void setPos(const QPoint& pos);
 
-    QPoint getPos() const;
+    const QPoint& getPos() const;
 
-    QImage getImage() const;
+    const QImage& getImage() const;
 
-    QRect getRecF() const;
+    const QRect& getRecF() const;
 
 signals:
     void posChanged();
