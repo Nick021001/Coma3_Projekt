@@ -84,17 +84,7 @@ void BildModell::rotateImage(int degree)
 
 
 void BildModell::grayscale(){
-    //Convert QPixmap to QImage for pixelwise transformation
-    //QImage originalImage = this->image.toImage();
-    QImage grayscaleImage(this->image.size(), QImage::Format_Grayscale8);
-    for (int y = 0; y < this->image.height(); ++y) {
-        for (int x = 0; x < this->image.width(); ++x) {
-            QRgb pixel = this->image.pixel(x, y);
-            grayscaleImage.setPixel(x, y, pixel);
-        }
-    }
-
-    this->image = grayscaleImage; // Convert QImage back to QPixmap
+    this->image = this->image.convertToFormat(QImage::Format_Grayscale8); // Convert QImage back to QPixmap
     emit BildModell::imageChanged();
 }
 
