@@ -11,6 +11,8 @@ class SobelOperator: public ImageArray
     int imageHeight;
 public:
     SobelOperator(const QImage& image);
+
+    QImage applySobel();
 };
 
 #endif // SOBELOPERATOR_H

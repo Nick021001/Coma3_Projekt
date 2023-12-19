@@ -73,11 +73,11 @@ BildWidget::BildWidget()
 
     dock->setAllowedAreas(Qt::RightDockWidgetArea);
 
-    bildModell = new BildModell(this, "D:/Coma3_Projekt/American Football.jpg");
+    bildModell = new BildModell(this, "D:/Coma3_Projekt/Roboter Maschinen.jpg");
     BildView* view = new BildView(*bildModell, this);
     BildController* controller = new BildController(bildModell, view, this);
 
-    QObject::connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
+    connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
@@ -88,6 +88,8 @@ BildWidget::BildWidget()
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
     QObject::connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscale);
+
+    QObject::connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektion);
 
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung
