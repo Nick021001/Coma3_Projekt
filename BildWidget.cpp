@@ -73,7 +73,7 @@ BildWidget::BildWidget()
 
     dock->setAllowedAreas(Qt::RightDockWidgetArea);
 
-    bildModell = new BildModell(this, "D:/Coma3_Projekt/Roboter Maschinen.jpg");
+    bildModell = new BildModell(this, "D:/Coma3_Projekt/American Football.jpg");
     BildView* view = new BildView(*bildModell, this);
     BildController* controller = new BildController(bildModell, view, this);
 
