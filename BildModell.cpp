@@ -98,3 +98,10 @@ void BildModell::edgeDetektion()
     emit BildModell::imageChanged();
 }
 
+void BildModell::resetImage()
+{
+    this->image = this->ImageInput;
+    this->rectImage = ImageInput.rect();
+    emit BildModell::imageChanged();
+}
+

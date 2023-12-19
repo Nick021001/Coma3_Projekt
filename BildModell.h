@@ -44,6 +44,7 @@ public slots:
     void zoomIn(QString rectangle);
     void grayscale();
     void edgeDetektion();
+    void resetImage();
 
 private:
     QImage image;

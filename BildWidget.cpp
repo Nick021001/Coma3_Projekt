@@ -50,7 +50,8 @@ BildWidget::BildWidget()
     toolbar->addWidget(edge_detektion_button);
     toolbar->addWidget(grayscale);
 
-
+    //Reset Button
+    QPushButton* reset_button = new QPushButton("reset");
     //Pixelgrößen Button
     QComboBox* button_auswahl_pixelgroeße = new QComboBox();
     button_auswahl_pixelgroeße->addItems({"Pixelgröße", "75x75", "150x150", "250x250"});
@@ -68,6 +69,7 @@ BildWidget::BildWidget()
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
     layout->addWidget(button_auswahl_pixelgroeße);
     layout->addWidget(speicher_button);
+    layout->addWidget(reset_button);
 
     dock_widget_content->setLayout(layout);
 
@@ -90,6 +92,8 @@ BildWidget::BildWidget()
     QObject::connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscale);
 
     QObject::connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektion);
+
+    QObject::connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
 
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung
