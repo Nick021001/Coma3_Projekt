@@ -55,6 +55,9 @@ private:
     const QImage ImageInput;
     int scaleFactor = 1;
     int rotationFactor = 0;
+
+    QPoint cornerMinMax() const;
+    void performTransformation();
 };
 
 #endif // BILDMODELL_H

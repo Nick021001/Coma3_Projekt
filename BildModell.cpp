@@ -57,33 +57,60 @@ void BildModell::zoomIn(QString rectangle)
     }
 }
 
+QPoint BildModell::cornerMinMax() const
+{
+    QPoint topleft = rectImage.topLeft();
+    QPoint topright = rectImage.topRight();
+    QPoint bottomleft = rectImage.bottomLeft();
+    QPoint bottomright = rectImage.bottomRight();
+
+    int xmin;
+    int ymin;
+
+    if (topleft.x() < bottomleft.x())
+    {
+        xmin = topleft.x();
+    }
+    else
+    {
+        xmin = bottomleft.x();
+    }
+
+    if (topright.y() < bottomright.y())
+    {
+        ymin = topright.y();
+    }
+    else
+    {
+        ymin = bottomright.y();
+    }
+
+    return QPoint(xmin, ymin);
+}
+
+void BildModell::performTransformation()
+{
+    const double pi = 3.14159265359;
+    double rad = rotationFactor * pi/180;
+    transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
+    this->rectImage = transformationMatrix.mapRect(ImageInput.rect());
+    this->rectImage.translate(-1*cornerMinMax());
+
+    this->image = ImageInput.transformed(transformationMatrix);
+
+    emit BildModell::imageChanged();
+}
 void BildModell::scaleImage(int scale)
 {
-    int width = this->image.width() / this->scaleFactor * scale;
-    int height = this->image.height() / this->scaleFactor * scale;
-
-    this->rectImage.setBottomRight(QPoint(width, height));
-    this->image = image.scaled(width, height, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    this->scaleFactor = scale;
-    //this->pixelSize = image.size();
-    emit BildModell::imageChanged();
+    scaleFactor = scale;
+    performTransformation();
 }
 
 void BildModell::rotateImage(int degree)
 {
-    QTransform tranformationMatrix = QTransform().rotate(degree);
-    this->image = ImageInput.transformed(tranformationMatrix);
-
-    this->rectImage = this->transformationMatrix.mapRect(this->ImageInput.rect());
-
-    this->rotationFactor = degree;
-
-    rotationFactor =0;
-
-    emit BildModell::imageChanged();
-
+    rotationFactor = degree;
+    performTransformation();
 }
-
 
 void BildModell::grayscale()
 {
