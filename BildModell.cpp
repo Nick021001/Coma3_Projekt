@@ -10,9 +10,11 @@ void BildModell::setPos(const QPoint& pos)
     this->currentMousePosition = pos;
 }
 
-void BildModell::setRubberBand(QRubberBand* rubBand)
+void BildModell::zoomInImage(const QRect& rect)
 {
-    this->rubberBand = rubBand;
+    this->rectImage = rect;
+    this->image = image.copy(this->rectImage);
+    emit BildModell::imageChanged();
 }
 
 const QImage& BildModell::getImage() const
@@ -23,11 +25,6 @@ const QImage& BildModell::getImage() const
 const QRect& BildModell::getRecF() const
 {
     return this->rectImage;
-}
-
-QRubberBand* BildModell::getRubberBand()
-{
-    return this->rubberBand;
 }
 
 //public slots

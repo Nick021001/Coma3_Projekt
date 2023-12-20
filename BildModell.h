@@ -28,9 +28,7 @@ public:
 
     void setPos(const QPoint& pos);
 
-    void setRubberBand(QRubberBand* rubBand);
-
-    QRubberBand* getRubberBand();
+    void zoomInImage(const QRect& rect);
 
     const QPoint& getPos() const;
 
@@ -60,7 +58,6 @@ private:
     const QImage ImageInput;
     int scaleFactor = 1;
     int rotationFactor = 0;
-    QRubberBand* rubberBand = nullptr;
 
     QPoint cornerMinMax() const;
     void performTransformation();

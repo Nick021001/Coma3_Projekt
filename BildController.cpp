@@ -12,7 +12,7 @@ BildController::BildController(BildModell* modell, BildView* view, QObject *pare
 void BildController::mousePressEvent(QMouseEvent *event)
 {
     this->pmodell->setPos(event->pos());
-    if (rubber == nullptr)
+    if (!rubber)
         rubber = new QRubberBand(QRubberBand::Rectangle, this->pview);
     rubber->setGeometry(QRect(this->pmodell->getPos(), QSize()));
     rubber->show();
@@ -26,6 +26,7 @@ void BildController::mouseMoveEvent(QMouseEvent *event)
 void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
     rubber->hide();
+    this->pmodell->zoomInImage(QRect(this->pmodell->getPos(), event->pos()));
     // determine selection, for example using QRect::intersects()
     // and QRect::contains().
 }
