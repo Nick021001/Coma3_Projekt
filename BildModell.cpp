@@ -10,6 +10,11 @@ void BildModell::setPos(const QPoint& pos)
     this->currentMousePosition = pos;
 }
 
+void BildModell::setRubberBand(QRubberBand* rubBand)
+{
+    this->rubberBand = rubBand;
+}
+
 const QImage& BildModell::getImage() const
 {
     return this->image;
@@ -20,6 +25,10 @@ const QRect& BildModell::getRecF() const
     return this->rectImage;
 }
 
+QRubberBand* BildModell::getRubberBand()
+{
+    return this->rubberBand;
+}
 
 //public slots
 

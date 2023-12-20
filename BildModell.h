@@ -9,6 +9,7 @@
 #include <QSize>
 #include <QPixmap>
 #include <QTransform>
+#include <QRubberBand>
 #include "SobelOperator.h"
 
 
@@ -26,6 +27,10 @@ public:
     {}
 
     void setPos(const QPoint& pos);
+
+    void setRubberBand(QRubberBand* rubBand);
+
+    QRubberBand* getRubberBand();
 
     const QPoint& getPos() const;
 
@@ -55,6 +60,7 @@ private:
     const QImage ImageInput;
     int scaleFactor = 1;
     int rotationFactor = 0;
+    QRubberBand* rubberBand = nullptr;
 
     QPoint cornerMinMax() const;
     void performTransformation();

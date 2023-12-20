@@ -4,21 +4,22 @@
 #include <QObject>
 #include <QMouseEvent>
 #include <QEvent>
+#include <QRubberBand>
 
 class BildModell;
 class BildView;
-class QRubberBand;
 
 class BildController: public QObject
 {
     Q_OBJECT
     BildModell* pmodell;
     BildView* pview;
-    QRubberBand* rubberBand = nullptr;
+    QRubberBand* rubber = nullptr;
 
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event);
 
 public:
     BildController(BildModell* modell, BildView* view, QObject *parent);

@@ -12,27 +12,35 @@ BildController::BildController(BildModell* modell, BildView* view, QObject *pare
 void BildController::mousePressEvent(QMouseEvent *event)
 {
     this->pmodell->setPos(event->pos());
-    if (!rubberBand)
-        this->rubberBand = new QRubberBand(QRubberBand::Rectangle);
-    rubberBand->setGeometry(QRect(this->pmodell->getPos(), QSize()));
-    rubberBand->show();
+    if (rubber == nullptr)
+        rubber = new QRubberBand(QRubberBand::Rectangle, this->pview);
+    rubber->setGeometry(QRect(this->pmodell->getPos(), QSize()));
+    rubber->show();
 }
 
 void BildController::mouseMoveEvent(QMouseEvent *event)
 {
-    rubberBand->setGeometry(QRect(this->pmodell->getPos(), event->pos()).normalized());
+    rubber->setGeometry(QRect(this->pmodell->getPos(), event->pos()).normalized());
 }
 
 void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
-    rubberBand->hide();
+    rubber->hide();
     // determine selection, for example using QRect::intersects()
     // and QRect::contains().
 }
 
-/*
-bool BildController::eventFilter(QObject* watched, QEvent* event)
+bool BildController::eventFilter(QObject *watched, QEvent *event)
 {
-    return false;
+    if (watched == pview) {
+        if (event->type() == QEvent::MouseButtonPress) {
+            mousePressEvent(static_cast<QMouseEvent*>(event));
+        } else if (event->type() == QEvent::MouseMove) {
+            mouseMoveEvent(static_cast<QMouseEvent*>(event));
+        } else if (event->type() == QEvent::MouseButtonRelease) {
+            mouseReleaseEvent(static_cast<QMouseEvent*>(event));
+        }
+    }
+
+    return QObject::eventFilter(watched, event);
 }
-*/
