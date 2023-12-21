@@ -20,7 +20,6 @@ public:
 
     BildModell(QObject* parent ,const QString& file)
         :image(QImage(file)),
-        currentMousePosition(QPoint()),
         pixelSize(image.size()),
         rectImage(image.rect()),
         ImageInput(image)
@@ -28,7 +27,7 @@ public:
 
     void setPos(const QPoint& pos);
 
-    void zoomInImage(const QRect& rect);
+    void zoomInImage(const QRect& rect, const QPoint& translation);
 
     const QPoint& getPos() const;
 

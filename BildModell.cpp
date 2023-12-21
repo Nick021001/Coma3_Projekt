@@ -10,10 +10,12 @@ void BildModell::setPos(const QPoint& pos)
     this->currentMousePosition = pos;
 }
 
-void BildModell::zoomInImage(const QRect& rect)
+void BildModell::zoomInImage(const QRect& rect, const QPoint& translation)
 {
+    QTransform translatonMatrix = QTransform(1, 0, 0, 1, translation.x(), translation.y());
     this->rectImage = rect;
     this->image = image.copy(this->rectImage);
+    this->image = image.transformed(translatonMatrix);
     emit BildModell::imageChanged();
 }
 
