@@ -16,6 +16,7 @@ void BildModell::zoomInImage(const QRect& rect, const QPoint& translation)
     this->rectImage = rect;
     this->image = image.copy(this->rectImage);
     this->image = image.transformed(translatonMatrix);
+    this->rectImage.moveTo(QPoint());
     emit BildModell::imageChanged();
 }
 const QImage& BildModell::getImage() const
