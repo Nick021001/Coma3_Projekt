@@ -18,7 +18,6 @@ void BildModell::zoomInImage(const QRect& rect, const QPoint& translation)
     this->image = image.transformed(translatonMatrix);
     emit BildModell::imageChanged();
 }
-
 const QImage& BildModell::getImage() const
 {
     return this->image;
@@ -30,40 +29,6 @@ const QRect& BildModell::getRecF() const
 }
 
 //public slots
-
-void BildModell::zoomIn(QString rectangle)
-{
-    if (rectangle == "Pixelgröße")
-    {
-        this->rectImage = QRect(0, 0, ImageInput.width(), ImageInput.height());
-        //this->image = image.copy(rectImage);
-        this->image = this->ImageInput;
-        emit BildModell::imageChanged();
-    }
-    else if (rectangle == "75x75")
-    {
-        this->rectImage.setRect(0, 0, 75, 75);
-        this->rectImage.moveCenter(this->currentMousePosition);
-        this->image = this->image.copy(rectImage);
-        emit BildModell::imageChanged();
-    }
-
-    else if (rectangle == "150x150")
-    {
-        this->rectImage.setRect(0, 0, 150, 150);
-        this->rectImage.moveCenter(this->currentMousePosition);
-        this->image = this->image.copy(rectImage);
-        emit BildModell::imageChanged();
-    }
-
-    else
-    {
-        this->rectImage.setRect(0, 0, 250, 250);
-        this->rectImage.moveCenter(this->currentMousePosition);
-        this->image = this->image.copy(rectImage);
-        emit BildModell::imageChanged();
-    }
-}
 
 QPoint BildModell::cornerMinMax() const
 {

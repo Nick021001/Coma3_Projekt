@@ -43,7 +43,6 @@ signals:
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
-    void zoomIn(QString rectangle);
     void grayscale();
     void edgeDetektion();
     void resetImage();

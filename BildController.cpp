@@ -27,8 +27,6 @@ void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
     rubber->hide();
     this->pmodell->zoomInImage(QRect(this->pmodell->getPos(), event->pos()), this->pmodell->getPos());
-    // determine selection, for example using QRect::intersects()
-    // and QRect::contains().
 }
 
 bool BildController::eventFilter(QObject *watched, QEvent *event)

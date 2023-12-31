@@ -52,9 +52,6 @@ BildWidget::BildWidget()
 
     //Reset Button
     QPushButton* reset_button = new QPushButton("reset");
-    //Pixelgrößen Button
-    QComboBox* button_auswahl_pixelgroeße = new QComboBox();
-    button_auswahl_pixelgroeße->addItems({"Pixelgröße", "75x75", "150x150", "250x250"});
 
     //Speicher Button
     QPushButton* speicher_button = new QPushButton("Speichern");
@@ -67,7 +64,6 @@ BildWidget::BildWidget()
     dock->setWidget(dock_widget_content);
 
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
-    layout->addWidget(button_auswahl_pixelgroeße);
     layout->addWidget(speicher_button);
     layout->addWidget(reset_button);
 
@@ -84,8 +80,6 @@ BildWidget::BildWidget()
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, winkel_zahl, qOverload<int>(&QLabel::setNum));
-
-    QObject::connect(button_auswahl_pixelgroeße, &QComboBox::textActivated, bildModell, &BildModell::zoomIn);
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
