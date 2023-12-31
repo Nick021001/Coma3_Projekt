@@ -45,3 +45,5 @@ QImage SobelOperator::applySobel() {
 
     return newImage;
 }
+
+
