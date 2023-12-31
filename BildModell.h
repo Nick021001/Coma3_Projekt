@@ -20,13 +20,14 @@ public:
 
     BildModell(QObject* parent ,const QString& file)
         :image(QImage(file)),
-        currentMousePosition(QPoint()),
         pixelSize(image.size()),
         rectImage(image.rect()),
         ImageInput(image)
     {}
 
     void setPos(const QPoint& pos);
+
+    void zoomInImage(const QRect& rect, const QPoint& translation);
 
     const QPoint& getPos() const;
 
@@ -55,7 +56,6 @@ private:
     const QImage ImageInput;
     int scaleFactor = 1;
     int rotationFactor = 0;
-    QRubberBand* rubberBand = nullptr;
 
     QPoint cornerMinMax() const;
     void performTransformation();
