@@ -26,8 +26,6 @@ void BildController::mouseMoveEvent(QMouseEvent *event)
 void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
     rubber->hide();
-    // determine selection, for example using QRect::intersects()
-    // and QRect::contains().
 }
 
 bool BildController::eventFilter(QObject *watched, QEvent *event)
