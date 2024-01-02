@@ -11,33 +11,47 @@ BildController::BildController(BildModell* modell, BildView* view, QObject *pare
 
 void BildController::mousePressEvent(QMouseEvent *event)
 {
-    this->pmodell->setPos(event->pos());
+    rectStartPos = event->pos();
     if (!rubber)
-        rubber = new QRubberBand(QRubberBand::Rectangle, this->pview);
-    rubber->setGeometry(QRect(this->pmodell->getPos(), QSize()));
+        rubber = new QRubberBand(QRubberBand::Rectangle, pview);
+    rubber->setGeometry(QRect(rectStartPos, QSize()));
     rubber->show();
 }
 
 void BildController::mouseMoveEvent(QMouseEvent *event)
 {
-    rubber->setGeometry(QRect(this->pmodell->getPos(), event->pos()).normalized());
+    rubber->setGeometry(QRect(rectStartPos, event->pos()).normalized());
 }
 
 void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
     rubber->hide();
-    this->pmodell->zoomInImage(QRect(this->pmodell->getPos(), event->pos()), this->pmodell->getPos());
+    this->pmodell->zoomInImage(QRect(rectStartPos, event->pos()));
 }
 
 bool BildController::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == pview) {
-        if (event->type() == QEvent::MouseButtonPress) {
-            mousePressEvent(static_cast<QMouseEvent*>(event));
-        } else if (event->type() == QEvent::MouseMove) {
-            mouseMoveEvent(static_cast<QMouseEvent*>(event));
-        } else if (event->type() == QEvent::MouseButtonRelease) {
-            mouseReleaseEvent(static_cast<QMouseEvent*>(event));
+        switch(event->type()) // Bestimmen des Ereignistyps (siehe auch Folien zur Ereignisbehandlung)
+        {
+        // relevante Ereignistypen behandeln:
+        // cast auf speziellen Typ durchführen und die speziellen Event-Methoden aufrufen (der Übersichtlichkeitshalber)
+        case QEvent::MouseButtonPress:
+            mousePressEvent(dynamic_cast<QMouseEvent*>(event));
+            break;
+        case QEvent::MouseMove:
+            mouseMoveEvent(dynamic_cast<QMouseEvent*>(event));
+            break;
+        case QEvent::MouseButtonRelease:
+            mouseReleaseEvent(dynamic_cast<QMouseEvent*>(event));
+            break;
+        /*
+        case QEvent::KeyPress:
+            keyPressEvent(dynamic_cast<QKeyEvent*>(event));
+            break;
+        */
+        default:
+            return false;
         }
     }
 
