@@ -12,5 +12,5 @@ BildView::BildView(BildModell& modell, QWidget* parent): QWidget(parent), pmodel
 void BildView::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
-    p.drawImage(this->pmodell.getRect(), this->pmodell.getImage());
+    p.drawImage(pmodell.getRect(), pmodell.getImage());
 }
