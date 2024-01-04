@@ -15,6 +15,7 @@ class BildController: public QObject
     BildModell* pmodell;
     BildView* pview;
     QRubberBand* rubber = nullptr;
+    QPoint rectStartPos;
 
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
@@ -23,11 +24,6 @@ class BildController: public QObject
 
 public:
     BildController(BildModell* modell, BildView* view, QObject *parent);
-
-    /*
-public:
-    bool eventFilter(QObject* watched, QEvent* event) override;
-*/
 };
 
 #endif // BILDCONTROLLER_H

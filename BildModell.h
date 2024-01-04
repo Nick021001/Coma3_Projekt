@@ -9,9 +9,6 @@
 #include <QSize>
 #include <QPixmap>
 #include <QTransform>
-#include <QRubberBand>
-#include "SobelOperator.h"
-
 
 class BildModell: public QObject{
     Q_OBJECT
@@ -19,25 +16,18 @@ class BildModell: public QObject{
 public:
 
     BildModell(QObject* parent ,const QString& file)
-        :image(QImage(file)),
-        pixelSize(image.size()),
-        rectImage(image.rect()),
-        ImageInput(image)
+        :ImageInput(QImage(file)),
+        image(ImageInput),
+        rectImage(image.rect())
     {}
 
-    void setPos(const QPoint& pos);
-
-    void zoomInImage(const QRect& rect, const QPoint& translation);
-
-    const QPoint& getPos() const;
+    void zoomInImage(const QRect& rect);
 
     const QImage& getImage() const;
 
-    const QRect& getRecF() const;
+    const QRect& getRect() const;
 
 signals:
-    void posChanged();
-    void pixelSizeChanged();
     void imageChanged();
 
 public slots:
@@ -48,12 +38,11 @@ public slots:
     void resetImage();
 
 private:
-    QImage image;
-    QPoint currentMousePosition;
-    QSize pixelSize;
-    QRect rectImage;
-    QTransform transformationMatrix = QTransform();
     const QImage ImageInput;
+    QImage image;
+    QRect rectImage;
+
+    QTransform transformationMatrix;
     int scaleFactor = 1;
     int rotationFactor = 0;
 
