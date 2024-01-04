@@ -8,6 +8,7 @@
 
 class BildModell;
 class BildView;
+class QUndoStack;
 
 class BildController: public QObject
 {
@@ -16,6 +17,7 @@ class BildController: public QObject
     BildView* pview;
     QRubberBand* rubber = nullptr;
     QPoint rectStartPos;
+    QUndoStack* undostack = nullptr;
 
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
@@ -23,7 +25,7 @@ class BildController: public QObject
     bool eventFilter(QObject *watched, QEvent *event);
 
 public:
-    BildController(BildModell* modell, BildView* view, QObject *parent);
+    BildController(BildModell* modell, QUndoStack* undostack, BildView* view, QObject *parent);
 };
 
 #endif // BILDCONTROLLER_H
