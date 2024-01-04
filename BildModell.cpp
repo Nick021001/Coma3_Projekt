@@ -12,6 +12,7 @@ void BildModell::zoomInImage(const QRect& rect)
     rectImage = rect;
     image = image.copy(rect);
     rectImage.moveTo(QPoint());
+    cuttedOut = true;
     emit BildModell::imageChanged();
 }
 const QImage& BildModell::getImage() const
@@ -65,6 +66,15 @@ QPoint BildModell::cornerMinMax() const
     return QPoint(xmin, ymin);
 }
 
+void BildModell::checkCurrentTransformations()
+{
+    if (edgeDetektionOn == true)
+        this->edgeDetektion();
+
+    else if (isGreyScale == true)
+        this->grayscale();
+}
+
 void BildModell::performTransformation()
 {
     double rad = rotationFactor * pi/180;
@@ -72,6 +82,8 @@ void BildModell::performTransformation()
     rectImage = transformationMatrix.mapRect(ImageInput.rect());
     rectImage.translate(-1*cornerMinMax());
     image = ImageInput.transformed(transformationMatrix);
+
+    this->checkCurrentTransformations();
 
     emit BildModell::imageChanged();
 }
@@ -96,6 +108,7 @@ void BildModell::rotateImageAfterRelease()
 void BildModell::grayscale()
 {
     image = image.convertToFormat(QImage::Format_Grayscale8);
+    isGreyScale = true;
     emit BildModell::imageChanged();
 }
 
@@ -103,6 +116,7 @@ void BildModell::edgeDetektion()
 {
     SobelOperator edgeImage(this->image);
     image = edgeImage.applySobel();
+    edgeDetektionOn = true;
     emit BildModell::imageChanged();
 }
 

@@ -20,7 +20,8 @@ public:
         image(ImageInput),
         rectImage(image.rect()),
         undostack(undostack)
-    {}
+    {
+    }
 
     void zoomInImage(const QRect& rect);
 
@@ -72,6 +73,10 @@ private:
     QImage image;
     QRect rectImage;
 
+    bool cuttedOut;
+    bool isGreyScale;
+    bool edgeDetektionOn;
+
     QTransform transformationMatrix;
     int scaleFactor = 1;
     int rotationFactor = 0;
@@ -79,6 +84,7 @@ private:
     QUndoStack* undostack = nullptr;
 
     QPoint cornerMinMax() const;
+    void checkCurrentTransformations();
 };
 
 #endif // BILDMODELL_H
