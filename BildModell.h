@@ -7,18 +7,19 @@
 #include <QString>
 #include <QRect>
 #include <QSize>
-#include <QPixmap>
 #include <QTransform>
+#include <QUndoStack>
 
 class BildModell: public QObject{
     Q_OBJECT
 
 public:
 
-    BildModell(QObject* parent ,const QString& file)
+    BildModell(QObject* parent, QUndoStack* undostack, const QString& file)
         :ImageInput(QImage(file)),
         image(ImageInput),
-        rectImage(image.rect())
+        rectImage(image.rect()),
+        undostack(undostack)
     {}
 
     void zoomInImage(const QRect& rect);
@@ -26,6 +27,22 @@ public:
     const QImage& getImage() const;
 
     const QRect& getRect() const;
+
+    class Memento
+    {
+        friend class BildModell;
+
+        QImage image;
+        Memento() = default;
+    public:
+        ~Memento() = default;
+    };
+
+    using MementoPtr = std::shared_ptr<Memento>;
+
+    void setMemento(const Memento& memento);
+    MementoPtr getMemento() const;
+
 
 signals:
     void imageChanged();
@@ -45,6 +62,8 @@ private:
     QTransform transformationMatrix;
     int scaleFactor = 1;
     int rotationFactor = 0;
+
+    QUndoStack* undostack = nullptr;
 
     QPoint cornerMinMax() const;
     void performTransformation();

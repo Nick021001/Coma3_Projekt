@@ -1,5 +1,6 @@
 #include "BildModell.h"
 #include "SobelOperator.h"
+#include "Befehlrotieren.h"
 
 namespace
 {
@@ -21,6 +22,19 @@ const QImage& BildModell::getImage() const
 const QRect& BildModell::getRect() const
 {
     return rectImage;
+}
+
+void BildModell::setMemento(const Memento& memento)
+{
+    image = memento.image;
+    emit BildModell::imageChanged();
+}
+
+BildModell::MementoPtr BildModell::getMemento() const
+{
+    std::unique_ptr<Memento> memento{ new Memento };
+    memento->image = image;
+    return memento;
 }
 
 //public slots

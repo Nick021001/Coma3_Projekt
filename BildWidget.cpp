@@ -18,6 +18,7 @@
 #include <QMenuBar>
 #include <QSpinBox>
 #include <QObject>
+#include <QUndoStack>
 
 
 BildWidget::BildWidget()
@@ -71,9 +72,11 @@ BildWidget::BildWidget()
 
     dock->setAllowedAreas(Qt::RightDockWidgetArea);
 
-    bildModell = new BildModell(this, "D:/Coma3_Projekt/American Football.jpg");
+    QUndoStack* undostack = new QUndoStack;
+
+    bildModell = new BildModell(this, undostack,"D:/Coma3_Projekt/American Football.jpg");
     BildView* view = new BildView(*bildModell, this);
-    BildController* controller = new BildController(bildModell, view, this);
+    BildController* controller = new BildController(bildModell, undostack ,view, this);
 
     connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
 
@@ -88,6 +91,11 @@ BildWidget::BildWidget()
     QObject::connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektion);
 
     QObject::connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
+
+
+    QAction* undoAction = undostack->createUndoAction(this);
+    toolbar->addAction(undoAction);
+    toolbar->addAction(undostack->createRedoAction(this));
 
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung

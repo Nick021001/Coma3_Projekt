@@ -2,9 +2,16 @@
 
 #include "BildModell.h"
 #include "BildView.h"
+#include "Befehlausschneiden.h"
+
+#include <QUndoStack>
 #include <QRubberBand>
 
-BildController::BildController(BildModell* modell, BildView* view, QObject *parent): QObject(parent), pmodell(modell), pview(view)
+BildController::BildController(BildModell* modell, QUndoStack* undostack ,BildView* view, QObject *parent):
+    QObject(parent),
+    pmodell(modell),
+    pview(view),
+    undostack(undostack)
 {
     pview->installEventFilter(this);
 }
@@ -26,7 +33,9 @@ void BildController::mouseMoveEvent(QMouseEvent *event)
 void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
     rubber->hide();
-    this->pmodell->zoomInImage(QRect(rectStartPos, event->pos()));
+    //this->pmodell->zoomInImage(QRect(rectStartPos, event->pos()));
+    auto cmd = new Befehlausschneiden(pmodell, QRect(rectStartPos, event->pos()));
+    undostack->push(cmd);
 }
 
 bool BildController::eventFilter(QObject *watched, QEvent *event)
