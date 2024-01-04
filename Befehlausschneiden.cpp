@@ -9,7 +9,7 @@ Befehlausschneiden::Befehlausschneiden(BildModell* modell, const QRect& rect)
 
 void Befehlausschneiden::undo()
 {
-    modell->zoomInImage(rectCutOutImage);
+    modell->resetImage();
 }
 
 void Befehlausschneiden::redo()

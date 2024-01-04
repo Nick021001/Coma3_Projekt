@@ -43,6 +43,7 @@ public:
     void setMemento(const Memento& memento);
     MementoPtr getMemento() const;
 
+    void performTransformation();
 
 signals:
     void imageChanged();
@@ -66,7 +67,6 @@ private:
     QUndoStack* undostack = nullptr;
 
     QPoint cornerMinMax() const;
-    void performTransformation();
 };
 
 #endif // BILDMODELL_H

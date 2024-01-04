@@ -84,6 +84,8 @@ void BildModell::rotateImage(int degree)
 {
     rotationFactor = degree;
     performTransformation();
+    auto cmd = new Befehlrotieren(this, rotationFactor);
+    undostack->push(cmd);
 }
 
 void BildModell::grayscale()
