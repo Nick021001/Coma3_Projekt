@@ -33,8 +33,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         BildWidget.cpp
         SobelOperator.h
         SobelOperator.cpp
-        Befehlanimation.h
-        Befehlanimation.cpp
+
+
         Befehlrotieren.h
         Befehlrotieren.cpp
         Befehlausschneiden.h

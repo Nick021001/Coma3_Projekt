@@ -19,6 +19,7 @@
 #include <QSpinBox>
 #include <QObject>
 #include <QUndoStack>
+#include <QUndoView>
 
 
 BildWidget::BildWidget()
@@ -86,16 +87,22 @@ BildWidget::BildWidget()
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
+    QObject::connect(rotate_slider, &QSlider::sliderReleased, bildModell, &BildModell::rotateImageAfterRelease);
+
     QObject::connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscale);
 
     QObject::connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektion);
 
     QObject::connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
 
-
     QAction* undoAction = undostack->createUndoAction(this);
     toolbar->addAction(undoAction);
     toolbar->addAction(undostack->createRedoAction(this));
+
+    QUndoView* undoView = new QUndoView(undostack);
+    QDockWidget* undoDW = new QDockWidget("Befehlshistorie");
+    undoDW->setWidget(undoView);
+    addDockWidget(Qt::RightDockWidgetArea, undoDW);
 
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung

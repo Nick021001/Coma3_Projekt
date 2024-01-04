@@ -28,6 +28,17 @@ public:
 
     const QRect& getRect() const;
 
+    inline QUndoStack const* getStack()
+    {
+        return undostack;
+    }
+
+    inline int getRotationFactor()
+    {
+        return rotationFactor;
+    }
+
+    /*
     class Memento
     {
         friend class BildModell;
@@ -42,7 +53,7 @@ public:
 
     void setMemento(const Memento& memento);
     MementoPtr getMemento() const;
-
+   */
     void performTransformation();
 
 signals:
@@ -51,6 +62,7 @@ signals:
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
+    void rotateImageAfterRelease();
     void grayscale();
     void edgeDetektion();
     void resetImage();

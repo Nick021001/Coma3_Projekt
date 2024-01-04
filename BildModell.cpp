@@ -24,6 +24,7 @@ const QRect& BildModell::getRect() const
     return rectImage;
 }
 
+/*
 void BildModell::setMemento(const Memento& memento)
 {
     image = memento.image;
@@ -36,7 +37,7 @@ BildModell::MementoPtr BildModell::getMemento() const
     memento->image = image;
     return memento;
 }
-
+*/
 //public slots
 
 QPoint BildModell::cornerMinMax() const
@@ -84,6 +85,10 @@ void BildModell::rotateImage(int degree)
 {
     rotationFactor = degree;
     performTransformation();
+}
+
+void BildModell::rotateImageAfterRelease()
+{
     auto cmd = new Befehlrotieren(this, rotationFactor);
     undostack->push(cmd);
 }
