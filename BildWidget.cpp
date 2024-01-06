@@ -81,13 +81,15 @@ BildWidget::BildWidget()
 
     connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
 
+    connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::pushImageScaleAfterChange);
+
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, winkel_zahl, qOverload<int>(&QLabel::setNum));
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
-    QObject::connect(rotate_slider, &QSlider::sliderReleased, bildModell, &BildModell::rotateImageAfterRelease);
+    QObject::connect(rotate_slider, &QSlider::sliderReleased, bildModell, &BildModell::pushImageRotationAfterRelease);
 
     QObject::connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscale);
 

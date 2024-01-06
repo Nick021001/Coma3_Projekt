@@ -9,10 +9,12 @@ Befehlrotieren::Befehlrotieren(BildModell* modell, int rotationFactor)
 
 void Befehlrotieren::undo()
 {
-    modell->resetImage();
+    modell->setRotationFactor(0);
+    modell->performTransformation();
 }
 
 void Befehlrotieren::redo()
 {
+    modell->setRotationFactor(this->rotationFactor);
     modell->performTransformation();
 }

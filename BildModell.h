@@ -33,6 +33,21 @@ public:
         return rotationFactor;
     }
 
+    inline void setRotationFactor(int rotationFac)
+    {
+        rotationFactor = rotationFac;
+    }
+
+    inline int getScaleFactor()
+    {
+        return scaleFactor;
+    }
+
+    inline void setScaleFactor(int scaleFac)
+    {
+        scaleFactor = scaleFac;
+    }
+
     /*
     class Memento
     {
@@ -57,7 +72,8 @@ signals:
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
-    void rotateImageAfterRelease();
+    void pushImageRotationAfterRelease();
+    void pushImageScaleAfterChange(int scale);
     void grayscale();
     void edgeDetektion();
     void resetImage();
@@ -67,7 +83,7 @@ private:
     QImage image;
     QRect rectImage;
 
-    bool cuttedOut;
+    bool cuttedOut = false;
     bool isGreyScale = false;
     bool edgeDetektionOn = false;
 
