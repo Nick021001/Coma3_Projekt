@@ -28,11 +28,6 @@ public:
 
     const QRect& getRect() const;
 
-    inline QUndoStack const* getStack()
-    {
-        return undostack;
-    }
-
     inline int getRotationFactor()
     {
         return rotationFactor;
@@ -72,6 +67,10 @@ private:
     QImage image;
     QRect rectImage;
 
+    bool cuttedOut;
+    bool isGreyScale = false;
+    bool edgeDetektionOn = false;
+
     QTransform transformationMatrix;
     int scaleFactor = 1;
     int rotationFactor = 0;
@@ -79,6 +78,7 @@ private:
     QUndoStack* undostack = nullptr;
 
     QPoint cornerMinMax() const;
+    void checkCurrentTransformations();
 };
 
 #endif // BILDMODELL_H
