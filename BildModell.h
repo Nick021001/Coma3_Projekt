@@ -20,19 +20,13 @@ public:
         image(ImageInput),
         rectImage(image.rect()),
         undostack(undostack)
-    {
-    }
+    {}
 
     void zoomInImage(const QRect& rect);
 
     const QImage& getImage() const;
 
     const QRect& getRect() const;
-
-    inline QUndoStack const* getStack()
-    {
-        return undostack;
-    }
 
     inline int getRotationFactor()
     {
@@ -74,8 +68,8 @@ private:
     QRect rectImage;
 
     bool cuttedOut;
-    bool isGreyScale;
-    bool edgeDetektionOn;
+    bool isGreyScale = false;
+    bool edgeDetektionOn = false;
 
     QTransform transformationMatrix;
     int scaleFactor = 1;

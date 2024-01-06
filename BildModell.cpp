@@ -68,6 +68,7 @@ QPoint BildModell::cornerMinMax() const
 
 void BildModell::checkCurrentTransformations()
 {
+
     if (edgeDetektionOn == true)
         this->edgeDetektion();
 
