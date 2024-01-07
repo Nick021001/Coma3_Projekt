@@ -1,6 +1,8 @@
 #include "BildModell.h"
 #include "SobelOperator.h"
 #include "Befehlrotieren.h"
+#include "Befehlskalieren.h"
+#include <QErrorMessage>
 
 namespace
 {
@@ -74,19 +76,29 @@ void BildModell::checkCurrentTransformations()
 
     else if (isGreyScale == true)
         this->grayscale();
+
 }
 
 void BildModell::performTransformation()
 {
     double rad = rotationFactor * pi/180;
-    transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
-    rectImage = transformationMatrix.mapRect(ImageInput.rect());
-    rectImage.translate(-1*cornerMinMax());
-    image = ImageInput.transformed(transformationMatrix);
 
-    this->checkCurrentTransformations();
+    if (cuttedOut == false)
+    {
+        transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
+        rectImage = transformationMatrix.mapRect(ImageInput.rect());
+        rectImage.translate(-1*cornerMinMax());
+        image = ImageInput.transformed(transformationMatrix);
 
-    emit BildModell::imageChanged();
+        this->checkCurrentTransformations();
+
+        emit BildModell::imageChanged();
+    }
+
+    else
+    {
+        QErrorMessage().showMessage(QString("Cutted images can not be rotated"));
+    }
 }
 void BildModell::scaleImage(int scale)
 {
@@ -100,9 +112,15 @@ void BildModell::rotateImage(int degree)
     performTransformation();
 }
 
-void BildModell::rotateImageAfterRelease()
+void BildModell::pushImageRotationAfterRelease()
 {
     auto cmd = new Befehlrotieren(this, rotationFactor);
+    undostack->push(cmd);
+}
+
+void BildModell::pushImageScaleAfterChange(int scale)
+{
+    auto cmd = new Befehlskalieren(this, scale);
     undostack->push(cmd);
 }
 
@@ -125,6 +143,9 @@ void BildModell::resetImage()
 {
     image = ImageInput;
     rectImage = ImageInput.rect();
+    cuttedOut = false;
+    edgeDetektionOn = false;
+    isGreyScale = false;
     emit BildModell::imageChanged();
 }
 
