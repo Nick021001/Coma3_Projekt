@@ -138,14 +138,8 @@ void BildModell::scaleImage(int scale)
 
 void BildModell::rotateImage(int degree)
 {
-    if (cuttedOut == false)
-    {
-        rotationFactor = degree;
-        performTransformation();
-    }
-
-    else
-        QErrorMessage().showMessage(QString("cutted Images can not be rotated"));
+    rotationFactor = degree;
+    performTransformation();
 }
 
 void BildModell::pushImageRotationAfterRelease()
@@ -169,10 +163,19 @@ void BildModell::grayscale()
 
 void BildModell::edgeDetektion()
 {
-    SobelOperator edgeImage(this->image);
-    image = edgeImage.applySobel();
-    edgeDetektionOn = true;
-    emit BildModell::imageChanged();
+    if (edgeDetektionOn == false)
+    {
+       SobelOperator edgeImage(this->image);
+       image = edgeImage.applySobel();
+       edgeDetektionOn = true;
+       emit BildModell::imageChanged();
+    }
+    else
+    {
+       edgeDetektionOn = false;
+       this->performTransformation();
+       emit BildModell::imageChanged();
+    }
 }
 
 void BildModell::resetImage()

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>save.jpeg</file>
+        <file>undo.jpeg</file>
+        <file>reset.jpeg</file>
+        <file>redo.jpeg</file>
+    </qresource>
+</RCC>
