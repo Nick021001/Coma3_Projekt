@@ -58,6 +58,8 @@ BildWidget::BildWidget()
     //Speicher Button
     QPushButton* speicher_button = new QPushButton("Speichern");
 
+    QPushButton* laden_button = new QPushButton("Laden");
+
     //Dockwidget
     QWidget* dock_widget_content = new QWidget;
     //QWidget* dock_widget = new QWidget;
@@ -68,6 +70,7 @@ BildWidget::BildWidget()
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
     layout->addWidget(speicher_button);
     layout->addWidget(reset_button);
+    layout->addWidget(laden_button);
 
     dock_widget_content->setLayout(layout);
 
@@ -75,7 +78,7 @@ BildWidget::BildWidget()
 
     QUndoStack* undostack = new QUndoStack;
 
-    bildModell = new BildModell(this, undostack,"D:/Coma3_Projekt/American Football.jpg");
+    bildModell = new BildModell(this, undostack);
     BildView* view = new BildView(*bildModell, this);
     BildController* controller = new BildController(bildModell, undostack ,view, this);
 
@@ -96,6 +99,10 @@ BildWidget::BildWidget()
     QObject::connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektion);
 
     QObject::connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
+
+    QObject::connect(laden_button, &QPushButton::clicked, bildModell, &BildModell::laden);
+
+    QObject::connect(speicher_button, &QPushButton::clicked, bildModell, &BildModell::speichern);
 
     QAction* undoAction = undostack->createUndoAction(this);
     toolbar->addAction(undoAction);
