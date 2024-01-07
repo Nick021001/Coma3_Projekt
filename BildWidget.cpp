@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QUndoStack>
 #include <QUndoView>
+#include <QIcon>
 
 
 BildWidget::BildWidget()
@@ -53,10 +54,25 @@ BildWidget::BildWidget()
     toolbar->addWidget(grayscale);
 
     //Reset Button
-    QPushButton* reset_button = new QPushButton("reset");
+    QPushButton* reset_button = new QPushButton();
+    QIcon reset_icon(":/icons/reset.jpeg");
+    reset_button->setIcon(reset_icon);
+    reset_button->setIconSize(QSize(32, 32));
 
     //Speicher Button
-    QPushButton* speicher_button = new QPushButton("Speichern");
+    QPushButton* speicher_button = new QPushButton("save");
+    QIcon save_icon(":/icons/save.jpeg");
+    speicher_button->setIcon(save_icon);
+
+    QPushButton* laden_button = new QPushButton("Laden");
+
+    QWidget* edgedetection_window = new QWidget();
+    QPushButton* edgedetectionoff = new QPushButton("turn edgedetection off",edgedetection_window);
+
+    QWidget* grayscale_window = new QWidget();
+    QPushButton* grayscaleoff = new QPushButton("turn grayscale off",grayscale_window);
+    connect(grayscale, &QPushButton::clicked, grayscale_window, &QWidget::show);
+    //connect(grayscaleoff, &QPushButton::clicked,...)
 
     //Dockwidget
     QWidget* dock_widget_content = new QWidget;
@@ -68,6 +84,7 @@ BildWidget::BildWidget()
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
     layout->addWidget(speicher_button);
     layout->addWidget(reset_button);
+    layout->addWidget(laden_button);
 
     dock_widget_content->setLayout(layout);
 
@@ -75,7 +92,7 @@ BildWidget::BildWidget()
 
     QUndoStack* undostack = new QUndoStack;
 
-    bildModell = new BildModell(this, undostack,"D:/Coma3_Projekt/American Football.jpg");
+    bildModell = new BildModell(this, undostack);
     BildView* view = new BildView(*bildModell, this);
     BildController* controller = new BildController(bildModell, undostack ,view, this);
 
@@ -96,6 +113,17 @@ BildWidget::BildWidget()
     QObject::connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektion);
 
     QObject::connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
+
+    QObject::connect(laden_button, &QPushButton::clicked, bildModell, &BildModell::laden);
+
+    QObject::connect(speicher_button, &QPushButton::clicked, bildModell, &BildModell::speichern);
+
+    connect(edge_detektion_button, &QPushButton::clicked, edgedetection_window, &QWidget::show);
+
+    //connect(edgedetectionoff, &QPushButton::clicked,bildmodell,&Bildmodell::);
+
+    connect(grayscale, &QPushButton::clicked, grayscale_window, &QWidget::show);
+    //connect(grayscaleoff, &QPushButton::clicked,...)
 
     QAction* undoAction = undostack->createUndoAction(this);
     toolbar->addAction(undoAction);

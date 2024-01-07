@@ -15,11 +15,8 @@ class BildModell: public QObject{
 
 public:
 
-    BildModell(QObject* parent, QUndoStack* undostack, const QString& file)
-        :ImageInput(QImage(file)),
-        image(ImageInput),
-        rectImage(image.rect()),
-        undostack(undostack)
+    BildModell(QObject* parent, QUndoStack* undostack)
+        :undostack(undostack)
     {}
 
     void zoomInImage(const QRect& rect);
@@ -77,9 +74,11 @@ public slots:
     void grayscale();
     void edgeDetektion();
     void resetImage();
+    bool laden();
+    bool speichern();
 
 private:
-    const QImage ImageInput;
+    QImage ImageInput;
     QImage image;
     QRect rectImage;
 
