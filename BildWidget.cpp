@@ -1,3 +1,5 @@
+
+
 #include "BildWidget.h"
 #include "BildModell.h"
 #include "BildController.h"
@@ -29,22 +31,38 @@ BildWidget::BildWidget()
 
     //Rotate Button
     QSlider* rotate_slider = new QSlider(Qt::Horizontal);
+    rotate_slider->setMinimum(0);
+    rotate_slider->setMaximum(360);
+    rotate_slider->setFixedWidth(200);
+
+    //winkel Label
+    QLabel* winkel_zahl = new QLabel("0");
 
     //edge detektion
     QPushButton* edge_detektion_button = new QPushButton("edge detektion");
+
 
     //Toolbar
     QToolBar* toolbar = new QToolBar();
     toolbar->addWidget(scale_button);
     toolbar->addWidget(rotate_slider);
+    toolbar->addWidget(winkel_zahl);
     toolbar->addWidget(edge_detektion_button);
+
 
     //Pixelgrößen Button
     QComboBox* button_auswahl_pixelgroeße = new QComboBox();
-    button_auswahl_pixelgroeße->addItems({"Pixelgröße", "75x75", "150x150", "250x250"});
+                                            button_auswahl_pixelgroeße->addItems({"Pixelgröße", "75x75", "150x150", "250x250"});
+
+
+    //convert to greyscale
+    QPushButton* grayscale = new QPushButton("Convert to Grayscale");
 
     //Speicher Button
     QPushButton* speicher_button = new QPushButton("Speichern");
+
+    //Laden Button
+    QPushButton* laden_button = new QPushButton("Laden");
 
     //Dockwidget
     QWidget* dock_widget_content = new QWidget;
@@ -55,19 +73,36 @@ BildWidget::BildWidget()
 
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
     layout->addWidget(button_auswahl_pixelgroeße);
-    layout->addWidget(speicher_button);
+        layout->addWidget(speicher_button);
+    layout->addWidget(laden_button);
+    layout->addWidget(grayscale);
 
     dock_widget_content->setLayout(layout);
 
     dock->setAllowedAreas(Qt::RightDockWidgetArea);
 
-    bildModell = new BildModell(this, "C:/Users/nikla/OneDrive/Dokumente/5. Semester/Computerorientierte Mathematik 3/Coma3_Projekt/Nike Fußball.jpg");
+    bildModell = new BildModell(this);
     BildView* view = new BildView(*bildModell, this);
-    //BildController* controller = new BildController(bildModell, view, this);
+    BildController* controller = new BildController(bildModell, view, this);
 
     QObject::connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
 
     QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
+
+    QObject::connect(rotate_slider, &QSlider::valueChanged, winkel_zahl, qOverload<int>(&QLabel::setNum));
+
+    QObject::connect(button_auswahl_pixelgroeße, &QComboBox::textActivated, bildModell, &BildModell::zoomIn);
+
+        QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
+
+    QObject::connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscale);
+
+    QObject::connect(laden_button, &QPushButton::clicked, bildModell, &BildModell::laden);
+
+    // In BildWidget or relevant class
+    QObject::connect(speicher_button, &QPushButton::clicked, bildModell, &BildModell::speichern);
+
+
 
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung
@@ -75,5 +110,7 @@ BildWidget::BildWidget()
     this->setCentralWidget(view);
     this->addDockWidget(Qt::RightDockWidgetArea, dock);
 }
+
+
 
 

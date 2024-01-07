@@ -4,26 +4,36 @@
 #include <QImage>
 #include <QWidget>
 #include <QPoint>
+#include <QRect>
 #include <QString>
+#include <QFileDialog>
+#include <QImage>
+#include <QPixmap>
+#include <QDebug>
+#include <QTransform>
+#include <QLabel>
 
-class BildModell: public QObject{
+
+class BildModell : public QObject {
     Q_OBJECT
 
 public:
-
-    BildModell(QObject* parent ,const QString& file)
-        :image(QImage(file)),
+    BildModell(QObject* parent = nullptr, const QString& file = QString())
+        : image(file.isEmpty() ? QPixmap() : QPixmap(file)),
         currentMousePosition(QPoint()),
-        pixelSize(image.size())
-    {}
+        pixelSize(image.size()),
+        rectImage(image.rect()),
+        ImageInput(image)
+    {
+        if (file.isEmpty()) {
+            image = QPixmap();
+        }
+    }
 
     void setPos(const QPoint& pos);
-
-    //void setPixelSize(const QSize& size);
-
     QPoint getPos() const;
-
-    QImage getImage() const;
+    QPixmap getImage() const;
+    QRect getRecF() const;
 
 signals:
     void posChanged();
@@ -33,11 +43,21 @@ signals:
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
+    void zoomIn(QString rectangle);
+    void grayscale();
+    bool laden();
+    bool speichern();
 
 private:
-    QImage image;
+    QPixmap image;
     QPoint currentMousePosition;
     QSize pixelSize;
+    QRect rectImage;
+    QTransform transformationMatrix = QTransform();
+    QLabel* imageLabel = nullptr;
+    const QPixmap ImageInput;
+    int scaleFactor = 1;
+    int rotationFactor = 0;
 };
 
 #endif // BILDMODELL_H
