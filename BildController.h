@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include <QEvent>
 #include <QRubberBand>
+#include <QKeyEvent>
 
 class BildModell;
 class BildView;
@@ -22,6 +23,7 @@ class BildController: public QObject
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent *event);
+    void keyPressEvent(QKeyEvent* event);
     bool eventFilter(QObject *watched, QEvent *event);
 
 public:

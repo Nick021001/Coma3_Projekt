@@ -16,6 +16,33 @@ BildController::BildController(BildModell* modell, QUndoStack* undostack ,BildVi
     pview->installEventFilter(this);
 }
 
+bool BildController::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == pview) {
+        switch(event->type()) // Bestimmen des Ereignistyps (siehe auch Folien zur Ereignisbehandlung)
+        {
+        // relevante Ereignistypen behandeln:
+        // cast auf speziellen Typ durchführen und die speziellen Event-Methoden aufrufen (der Übersichtlichkeitshalber)
+        case QEvent::MouseButtonPress:
+            mousePressEvent(dynamic_cast<QMouseEvent*>(event));
+            break;
+        case QEvent::MouseMove:
+            mouseMoveEvent(dynamic_cast<QMouseEvent*>(event));
+            break;
+        case QEvent::MouseButtonRelease:
+            mouseReleaseEvent(dynamic_cast<QMouseEvent*>(event));
+            break;
+        case QEvent::KeyPress:
+            keyPressEvent(dynamic_cast<QKeyEvent*>(event));
+            break;
+        default:
+            return false;
+        }
+    }
+
+    return QObject::eventFilter(watched, event);
+}
+
 void BildController::mousePressEvent(QMouseEvent *event)
 {
     rectStartPos = event->pos();
@@ -38,31 +65,22 @@ void BildController::mouseReleaseEvent(QMouseEvent *event)
     undostack->push(cmd);
 }
 
-bool BildController::eventFilter(QObject *watched, QEvent *event)
+void BildController::keyPressEvent(QKeyEvent* event)
 {
-    if (watched == pview) {
-        switch(event->type()) // Bestimmen des Ereignistyps (siehe auch Folien zur Ereignisbehandlung)
-        {
-        // relevante Ereignistypen behandeln:
-        // cast auf speziellen Typ durchführen und die speziellen Event-Methoden aufrufen (der Übersichtlichkeitshalber)
-        case QEvent::MouseButtonPress:
-            mousePressEvent(dynamic_cast<QMouseEvent*>(event));
-            break;
-        case QEvent::MouseMove:
-            mouseMoveEvent(dynamic_cast<QMouseEvent*>(event));
-            break;
-        case QEvent::MouseButtonRelease:
-            mouseReleaseEvent(dynamic_cast<QMouseEvent*>(event));
-            break;
-        /*
-        case QEvent::KeyPress:
-            keyPressEvent(dynamic_cast<QKeyEvent*>(event));
-            break;
-        */
-        default:
-            return false;
-        }
+    switch(event->key())
+    {
+    case Qt::Key_Plus:
+    {
+        pmodell->setRotationFactor(pmodell->getRotationFactor() + 90);
+        pmodell->performTransformation();
+        break;
     }
 
-    return QObject::eventFilter(watched, event);
+    case Qt::Key_Minus:
+    {
+        pmodell->setRotationFactor(pmodell->getRotationFactor() - 90);
+        pmodell->performTransformation();
+        break;
+    }
+    }
 }
