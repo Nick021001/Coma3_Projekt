@@ -3,6 +3,8 @@
 #include "Befehlrotieren.h"
 #include "Befehlskalieren.h"
 #include <QErrorMessage>
+#include <qdebug.h>
+#include <QFileDialog>
 
 namespace
 {
@@ -25,6 +27,43 @@ const QImage& BildModell::getImage() const
 const QRect& BildModell::getRect() const
 {
     return rectImage;
+}
+
+bool BildModell::laden() {
+    QString filePath = QFileDialog::getOpenFileName(nullptr, tr("Bild öffnen"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
+        if (!filePath.isEmpty())
+    {
+        ImageInput = QImage(filePath);
+        image = ImageInput;
+        rectImage = ImageInput.rect();
+
+        emit BildModell::imageChanged();
+        return true;
+    }
+    else{
+        qDebug() << "Fehler beim Laden des Bildes: " << filePath;
+    }
+
+    return false;
+}
+
+bool BildModell::speichern() {
+    QString filename = QFileDialog::getSaveFileName(nullptr, tr("Bild speichern"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
+    if (!filename.isEmpty()) {
+        if (image.isNull()) {
+            qDebug() << "Kein Bild zum Speichern vorhanden.";
+            return false;
+        }
+        if (!image.save(filename)) {
+            qDebug() << "Fehler beim Speichern des Bildes:" << filename;
+            return false;
+        }
+        qDebug() << "Bild erfolgreich gespeichert unter: " << filename;
+        return true;
+    } else {
+        qDebug() << "Speichern vom Benutzer abgebrochen.";
+        return false;
+    }
 }
 
 /*
@@ -82,23 +121,14 @@ void BildModell::checkCurrentTransformations()
 void BildModell::performTransformation()
 {
     double rad = rotationFactor * pi/180;
+    transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
+    rectImage = transformationMatrix.mapRect(ImageInput.rect());
+    rectImage.translate(-1*cornerMinMax());
+    image = ImageInput.transformed(transformationMatrix);
 
-    if (cuttedOut == false)
-    {
-        transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
-        rectImage = transformationMatrix.mapRect(ImageInput.rect());
-        rectImage.translate(-1*cornerMinMax());
-        image = ImageInput.transformed(transformationMatrix);
+    this->checkCurrentTransformations();
 
-        this->checkCurrentTransformations();
-
-        emit BildModell::imageChanged();
-    }
-
-    else
-    {
-        QErrorMessage().showMessage(QString("Cutted images can not be rotated"));
-    }
+    emit BildModell::imageChanged();
 }
 void BildModell::scaleImage(int scale)
 {
