@@ -27,8 +27,8 @@ BildWidget::BildWidget()
 {
     //resize(500, 500);
     //scale button
-    QSpinBox* scale_button = new QSpinBox();
-    scale_button->setRange(1, 1000);
+    QSpinBox* scale_spinbox = new QSpinBox();
+    scale_spinbox->setRange(1, 1000);
 
     //Rotate Button
     QSlider* rotate_slider = new QSlider(Qt::Horizontal);
@@ -37,7 +37,7 @@ BildWidget::BildWidget()
     rotate_slider->setFixedWidth(200);
 
     //winkel Label
-    QLabel* winkel_zahl = new QLabel("0");
+    QLabel* degree = new QLabel("0");
 
     //edge detektion
     QPushButton* edge_detektion_button = new QPushButton("edge detektion");
@@ -47,9 +47,9 @@ BildWidget::BildWidget()
 
     //Toolbar
     QToolBar* toolbar = new QToolBar();
-    toolbar->addWidget(scale_button);
+    toolbar->addWidget(scale_spinbox);
     toolbar->addWidget(rotate_slider);
-    toolbar->addWidget(winkel_zahl);
+    toolbar->addWidget(degree);
     toolbar->addWidget(edge_detektion_button);
     toolbar->addWidget(grayscale);
 
@@ -60,31 +60,23 @@ BildWidget::BildWidget()
     reset_button->setIconSize(QSize(32, 32));
 
     //Speicher Button
-    QPushButton* speicher_button = new QPushButton("save");
+    QPushButton* save_button = new QPushButton("save");
     QIcon save_icon(":/icons/save.jpeg");
-    speicher_button->setIcon(save_icon);
+    save_button->setIcon(save_icon);
 
-    QPushButton* laden_button = new QPushButton("Laden");
-
-    QWidget* edgedetection_window = new QWidget();
-    QPushButton* edgedetectionoff = new QPushButton("turn edgedetection off",edgedetection_window);
-
-    QWidget* grayscale_window = new QWidget();
-    QPushButton* grayscaleoff = new QPushButton("turn grayscale off",grayscale_window);
-    connect(grayscale, &QPushButton::clicked, grayscale_window, &QWidget::show);
-    //connect(grayscaleoff, &QPushButton::clicked,...)
+    QPushButton* upload_button = new QPushButton("upload");
 
     //Dockwidget
     QWidget* dock_widget_content = new QWidget;
     //QWidget* dock_widget = new QWidget;
-    QDockWidget* dock = new QDockWidget("right dock");//, dock_widget);
+    QDockWidget* dock = new QDockWidget("user board");//, dock_widget);
 
     dock->setWidget(dock_widget_content);
 
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
-    layout->addWidget(speicher_button);
+    layout->addWidget(save_button);
     layout->addWidget(reset_button);
-    layout->addWidget(laden_button);
+    layout->addWidget(upload_button);
 
     dock_widget_content->setLayout(layout);
 
@@ -96,34 +88,25 @@ BildWidget::BildWidget()
     BildView* view = new BildView(*bildModell, this);
     BildController* controller = new BildController(bildModell, undostack ,view, this);
 
-    connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
+    connect(scale_spinbox, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
 
-    connect(scale_button, &QSpinBox::valueChanged, bildModell, &BildModell::pushImageScaleAfterChange);
+    connect(scale_spinbox, &QSpinBox::valueChanged, bildModell, &BildModell::pushImageScaleAfterChange);
 
-    QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
+    connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
 
-    QObject::connect(rotate_slider, &QSlider::valueChanged, winkel_zahl, qOverload<int>(&QLabel::setNum));
+    connect(rotate_slider, &QSlider::valueChanged, degree, qOverload<int>(&QLabel::setNum));
 
-    QObject::connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
+    connect(rotate_slider, &QSlider::sliderReleased, bildModell, &BildModell::pushImageRotationAfterRelease);
 
-    QObject::connect(rotate_slider, &QSlider::sliderReleased, bildModell, &BildModell::pushImageRotationAfterRelease);
+    connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscaleOnOff);
 
-    QObject::connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscale);
+    connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektionOnOff);
 
-    QObject::connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektion);
+    connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
 
-    QObject::connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
+    connect(upload_button, &QPushButton::clicked, bildModell, &BildModell::laden);
 
-    QObject::connect(laden_button, &QPushButton::clicked, bildModell, &BildModell::laden);
-
-    QObject::connect(speicher_button, &QPushButton::clicked, bildModell, &BildModell::speichern);
-
-    connect(edge_detektion_button, &QPushButton::clicked, edgedetection_window, &QWidget::show);
-
-    //connect(edgedetectionoff, &QPushButton::clicked,bildmodell,&Bildmodell::);
-
-    connect(grayscale, &QPushButton::clicked, grayscale_window, &QWidget::show);
-    //connect(grayscaleoff, &QPushButton::clicked,...)
+    connect(save_button, &QPushButton::clicked, bildModell, &BildModell::speichern);
 
     QAction* undoAction = undostack->createUndoAction(this);
     toolbar->addAction(undoAction);
