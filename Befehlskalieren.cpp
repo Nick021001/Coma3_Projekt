@@ -17,5 +17,5 @@ void Befehlskalieren::undo()
 void Befehlskalieren::redo()
 {
     pmodell->setScaleFactor(this->scaleFactor);
-    pmodell->scaleImage(scaleFactor);
+    pmodell->performTransformation();
 }
