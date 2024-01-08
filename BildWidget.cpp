@@ -21,6 +21,7 @@
 #include <QUndoStack>
 #include <QUndoView>
 #include <QIcon>
+#include <QScrollArea>
 
 
 BildWidget::BildWidget()
@@ -117,10 +118,16 @@ BildWidget::BildWidget()
     undoDW->setWidget(undoView);
     addDockWidget(Qt::RightDockWidgetArea, undoDW);
 
+    view->setFixedSize(1400, 1400);
+    QScrollArea* scrollArea = new QScrollArea();
+    scrollArea->setWidget(view);
+    scrollArea->setWidgetResizable(true);
+
     //auto label = new QLabel("Test");
     //Widget zusammsensetzung
     this->addToolBar(toolbar);
-    this->setCentralWidget(view);
+    //this->setCentralWidget(view);
+    this->setCentralWidget(scrollArea);
     this->addDockWidget(Qt::RightDockWidgetArea, dock);
 }
 
