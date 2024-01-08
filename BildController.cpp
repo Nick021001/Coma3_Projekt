@@ -6,6 +6,7 @@
 
 #include <QUndoStack>
 #include <QRubberBand>
+#include <QVector2D>
 
 BildController::BildController(BildModell* modell, QUndoStack* undostack ,BildView* view, QObject *parent):
     QObject(parent),
@@ -33,9 +34,28 @@ void BildController::mouseMoveEvent(QMouseEvent *event)
 void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
     rubber->hide();
-    //this->pmodell->zoomInImage(QRect(rectStartPos, event->pos()));
-    auto cmd = new Befehlausschneiden(pmodell, QRect(rectStartPos, event->pos()));
-    undostack->push(cmd);
+    if (rectStartPos == event->pos())
+    {
+        qDebug() << "single Pixel can not be displayed";
+    }
+
+    else
+    {
+        if (QVector2D(rectStartPos).length() > QVector2D(event->pos()).length())
+        {
+            QPoint endPos = rectStartPos;
+            rectStartPos = event->pos();
+            auto cmd = new Befehlausschneiden(pmodell, QRect(rectStartPos, endPos));
+            undostack->push(cmd);
+        }
+
+        else
+        {
+            auto cmd = new Befehlausschneiden(pmodell, QRect(rectStartPos, event->pos()));
+            undostack->push(cmd);
+        }
+    }
+
 }
 
 bool BildController::eventFilter(QObject *watched, QEvent *event)

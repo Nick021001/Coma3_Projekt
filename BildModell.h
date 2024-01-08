@@ -19,7 +19,7 @@ public:
         :undostack(undostack)
     {}
 
-    void zoomInImage(const QRect& rect);
+    void cutOutImage(const QRect& rect);
 
     const QImage& getImage() const;
 
