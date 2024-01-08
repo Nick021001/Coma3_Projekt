@@ -118,27 +118,32 @@ void BildModell::checkCurrentTransformations()
 
 }
 
-void BildModell::performTransformation()
+void BildModell::affineTransformation()
 {
     double rad = rotationFactor * pi/180;
     transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
     rectImage = transformationMatrix.mapRect(ImageInput.rect());
     rectImage.translate(-1*cornerMinMax());
     image = ImageInput.transformed(transformationMatrix);
+}
 
+void BildModell::performTransformation()
+{
+
+    this->affineTransformation();
     this->checkCurrentTransformations();
 
     emit BildModell::imageChanged();
 }
 void BildModell::scaleImage(int scale)
 {
-    scaleFactor = scale;
+    this->setScaleFactor(scale);
     performTransformation();
 }
 
 void BildModell::rotateImage(int degree)
 {
-    rotationFactor = degree;
+    this->setRotationFactor(degree);
     performTransformation();
 }
 
@@ -154,28 +159,49 @@ void BildModell::pushImageScaleAfterChange(int scale)
     undostack->push(cmd);
 }
 
+void BildModell::grayscaleOnOff()
+{
+    if (isGreyScale == false)
+    {
+        isGreyScale = true;
+        this->performTransformation();
+    }
+
+    else
+    {
+        isGreyScale = false;
+        this->performTransformation();
+    }
+}
+
 void BildModell::grayscale()
 {
     image = image.convertToFormat(QImage::Format_Grayscale8);
-    isGreyScale = true;
     emit BildModell::imageChanged();
 }
 
-void BildModell::edgeDetektion()
+ void BildModell::edgeDetektionOnOff()
 {
     if (edgeDetektionOn == false)
     {
-       SobelOperator edgeImage(this->image);
-       image = edgeImage.applySobel();
        edgeDetektionOn = true;
-       emit BildModell::imageChanged();
+       this->performTransformation();
     }
+
     else
     {
        edgeDetektionOn = false;
        this->performTransformation();
-       emit BildModell::imageChanged();
     }
+}
+
+
+void BildModell::edgeDetektion()
+{
+
+    SobelOperator edgeImage(this->image);
+    image = edgeImage.applySobel();
+    emit BildModell::imageChanged();
 }
 
 void BildModell::resetImage()

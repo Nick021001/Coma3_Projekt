@@ -25,6 +25,10 @@ public:
 
     const QRect& getRect() const;
 
+    void performTransformation(); //führt alle Transformationen aus
+
+
+    // inline methods
     inline int getRotationFactor()
     {
         return rotationFactor;
@@ -61,7 +65,6 @@ public:
     void setMemento(const Memento& memento);
     MementoPtr getMemento() const;
    */
-    void performTransformation();
 
 signals:
     void imageChanged();
@@ -71,15 +74,15 @@ public slots:
     void rotateImage(int degree);
     void pushImageRotationAfterRelease();
     void pushImageScaleAfterChange(int scale);
-    void grayscale();
-    void edgeDetektion();
     void resetImage();
+    void edgeDetektionOnOff();
+    void grayscaleOnOff();
     bool laden();
     bool speichern();
 
 private:
-    QImage ImageInput;
-    QImage image;
+    QImage ImageInput; //eingeladenes Bild
+    QImage image; //aktuelles Bild
     QRect rectImage;
 
     bool cuttedOut = false;
@@ -92,8 +95,12 @@ private:
 
     QUndoStack* undostack = nullptr;
 
-    QPoint cornerMinMax() const;
-    void checkCurrentTransformations();
+    //private Methoden, diese sollen die Rechnungen durchführen um das Bild zu verändern
+    QPoint cornerMinMax() const; //berechnet die Translation für die Boundbox des Biles
+    void checkCurrentTransformations(); //checkt ob die nicht affinen Transformationen an sind und führt sie aus
+    void affineTransformation(); //berechnet die Affine Transformation des Bildes
+    void edgeDetektion(); //berechnet die Kantenerkennung
+    void grayscale(); //wandelt das Bild ein Graustufenbild um
 };
 
 #endif // BILDMODELL_H
