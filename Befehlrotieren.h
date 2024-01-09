@@ -12,8 +12,13 @@ public:
     void undo() override;
     void redo() override;
 
+    int id() const override;
+    bool mergeWith(const QUndoCommand* other) override;
+
+
 private:
-    int rotationFactor;
+    int oldRotationFactor = 0;
+    int newRotationFactor;
     BildModell* modell = nullptr;
 
 };

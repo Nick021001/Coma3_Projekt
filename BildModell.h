@@ -15,11 +15,9 @@ class BildModell: public QObject{
 
 public:
 
-    BildModell(QObject* parent, QUndoStack* undostack)
-        :undostack(undostack)
-    {}
+    BildModell(QObject* parent){};
 
-    void zoomInImage(const QRect& rect);
+    void cutOutImage(const QRect& rect);
 
     const QImage& getImage() const;
 
@@ -72,8 +70,10 @@ signals:
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
+    /*
     void pushImageRotationAfterRelease();
     void pushImageScaleAfterChange(int scale);
+    */
     void resetImage();
     void edgeDetektionOnOff();
     void grayscaleOnOff();

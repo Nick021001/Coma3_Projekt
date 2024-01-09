@@ -14,5 +14,5 @@ void Befehlausschneiden::undo()
 
 void Befehlausschneiden::redo()
 {
-    modell->zoomInImage(rectCutOutImage);
+    modell->cutOutImage(rectCutOutImage);
 }

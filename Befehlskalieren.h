@@ -11,9 +11,12 @@ public:
 
     void undo() override;
     void redo() override;
+    int id() const override;
+    bool mergeWith(const QUndoCommand* other) override;
 
 private:
-    int scaleFactor;
+    int oldScaleFactor = 1;
+    int newScaleFactor;
     BildModell* pmodell;
 
 };

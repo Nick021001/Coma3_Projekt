@@ -2,6 +2,9 @@
 #include "BildModell.h"
 #include "BildController.h"
 #include "BildView.h"
+#include "BildWidgetController.h"
+
+#include"Befehlrotieren.h"
 
 // Qt includes
 #include <QDial>
@@ -85,19 +88,20 @@ BildWidget::BildWidget()
 
     QUndoStack* undostack = new QUndoStack;
 
-    bildModell = new BildModell(this, undostack);
+    bildModell = new BildModell(this);
     BildView* view = new BildView(*bildModell, this);
     BildController* controller = new BildController(bildModell, undostack ,view, this);
+    Bildwidgetcontroller* bildwidgetcontroller = new Bildwidgetcontroller(bildModell, undostack, view, this);
 
-    connect(scale_spinbox, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
+    //connect(scale_spinbox, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
 
-    connect(scale_spinbox, &QSpinBox::valueChanged, bildModell, &BildModell::pushImageScaleAfterChange);
+    connect(scale_spinbox, &QSpinBox::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushScaleafterChange);
 
-    connect(rotate_slider, &QSlider::valueChanged, bildModell, &BildModell::rotateImage);
+    connect(rotate_slider, &QSlider::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushRotationAfterRealse); //&BildModell::rotateImage);
 
     connect(rotate_slider, &QSlider::valueChanged, degree, qOverload<int>(&QLabel::setNum));
 
-    connect(rotate_slider, &QSlider::sliderReleased, bildModell, &BildModell::pushImageRotationAfterRelease);
+   // connect(rotate_slider, &QSlider::sliderReleased, bildwidgetcontroller, &Bildwidgetcontroller::pushRotationAfterRealse);
 
     connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscaleOnOff);
 
