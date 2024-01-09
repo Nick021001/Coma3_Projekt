@@ -1,7 +1,5 @@
 #include "BildModell.h"
 #include "SobelOperator.h"
-#include "Befehlrotieren.h"
-#include "Befehlskalieren.h"
 #include <QErrorMessage>
 #include <qdebug.h>
 #include <QFileDialog>
@@ -147,6 +145,7 @@ void BildModell::rotateImage(int degree)
     performTransformation();
 }
 
+/*
 void BildModell::pushImageRotationAfterRelease()
 {
     auto cmd = new Befehlrotieren(this, rotationFactor);
@@ -158,6 +157,7 @@ void BildModell::pushImageScaleAfterChange(int scale)
     auto cmd = new Befehlskalieren(this, scale);
     undostack->push(cmd);
 }
+*/
 
 void BildModell::grayscaleOnOff()
 {

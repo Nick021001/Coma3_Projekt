@@ -1,7 +1,8 @@
 #include "Befehlrotieren.h"
 
 Befehlrotieren::Befehlrotieren(BildModell* modell, int rotationFactor)
-    :rotationFactor(rotationFactor)
+    :oldRotationFactor(modell->getRotationFactor()),
+    newRotationFactor(rotationFactor)
     ,modell(modell)
 {
     setText(QString("Bild um %1 Grad gedreht").arg(rotationFactor));
@@ -9,12 +10,27 @@ Befehlrotieren::Befehlrotieren(BildModell* modell, int rotationFactor)
 
 void Befehlrotieren::undo()
 {
-    modell->setRotationFactor(0);
-    modell->performTransformation();
+    modell->rotateImage(oldRotationFactor);
 }
 
 void Befehlrotieren::redo()
 {
-    modell->setRotationFactor(this->rotationFactor);
-    modell->performTransformation();
+    modell->rotateImage(newRotationFactor);
+}
+
+
+int Befehlrotieren::id() const
+{
+    return 1;
+}
+
+bool Befehlrotieren::mergeWith(const QUndoCommand* other)
+{
+    if(auto cmd = dynamic_cast<const Befehlrotieren*>(other))
+    {
+        newRotationFactor = cmd->newRotationFactor;
+        setText(QString("Bild um %1 Grad gedreht").arg(newRotationFactor));
+        return true;
+    }
+    return false;
 }
