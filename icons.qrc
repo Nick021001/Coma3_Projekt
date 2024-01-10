@@ -4,5 +4,6 @@
         <file>undo.jpeg</file>
         <file>reset.jpeg</file>
         <file>redo.jpeg</file>
+        <file>help.jpeg</file>
     </qresource>
 </RCC>

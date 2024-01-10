@@ -3,6 +3,8 @@
 #include "BildModell.h"
 #include "BildView.h"
 #include "Befehlausschneiden.h"
+#include "Befehlrotieren.h"
+#include "Befehlskalieren.h"
 
 #include <QUndoStack>
 #include <QRubberBand>
@@ -58,6 +60,79 @@ void BildController::mouseReleaseEvent(QMouseEvent *event)
 
 }
 
+void BildController::keyPressEvent(QKeyEvent* event)
+{
+    switch(event->key())
+    {
+    case Qt::Key_Plus:
+    {
+        int scalefactor = pmodell->getScaleFactor()  + 1;
+        auto cmd = new Befehlskalieren(pmodell, scalefactor);
+        undostack->push(cmd);
+        break;
+    }
+    case Qt::Key_Minus:
+    {
+        int scalefactor = pmodell->getScaleFactor() -1;
+        auto cmd = new Befehlskalieren(pmodell, scalefactor);
+        undostack->push(cmd);
+        break;
+    }
+    break;
+    case Qt::Key_Up:
+    {
+        int rotationfactor = pmodell->getRotationFactor() + 180;
+        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
+        undostack->push(cmd);
+        break;
+    }
+    break;
+    case Qt::Key_Down:
+    {
+        int rotationfactor = pmodell->getRotationFactor() + 180;
+        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
+        undostack->push(cmd);
+        break;
+    }
+    break;
+
+    case Qt::Key_Left:
+    {
+        int rotationfactor = pmodell->getRotationFactor() - 90;
+        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
+        undostack->push(cmd);
+        break;
+    }
+    case Qt::Key_Right:
+    {
+        int rotationfactor = pmodell->getRotationFactor() + 90;
+        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
+        undostack->push(cmd);
+        break;
+    }
+
+    case Qt::Key_G:     //Greyscale
+        pmodell->grayscaleOnOff();
+        break;
+
+    case Qt::Key_E:     //Edgedetection
+        pmodell->edgeDetektionOnOff();
+        break;
+
+    case Qt::Key_Backspace:    //reset
+        pmodell->resetImage();
+        break;
+
+    case Qt::Key_Escape:        //close
+        break;
+
+    case Qt::Key_Return: //save
+        pmodell->speichern();
+        break;
+    }
+
+}
+
 bool BildController::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == pview) {
@@ -74,11 +149,9 @@ bool BildController::eventFilter(QObject *watched, QEvent *event)
         case QEvent::MouseButtonRelease:
             mouseReleaseEvent(dynamic_cast<QMouseEvent*>(event));
             break;
-        /*
         case QEvent::KeyPress:
             keyPressEvent(dynamic_cast<QKeyEvent*>(event));
             break;
-        */
         default:
             return false;
         }

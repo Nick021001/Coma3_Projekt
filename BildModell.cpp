@@ -15,6 +15,7 @@ void BildModell::cutOutImage(const QRect& rect)
     image = image.copy(rect);
     rectImage.moveTo(QPoint());
     cuttedOut = true;
+    cutOutArea = rect;
     emit BildModell::imageChanged();
 }
 const QImage& BildModell::getImage() const
@@ -64,20 +65,6 @@ bool BildModell::speichern() {
     }
 }
 
-/*
-void BildModell::setMemento(const Memento& memento)
-{
-    image = memento.image;
-    emit BildModell::imageChanged();
-}
-
-BildModell::MementoPtr BildModell::getMemento() const
-{
-    std::unique_ptr<Memento> memento{ new Memento };
-    memento->image = image;
-    return memento;
-}
-*/
 //public slots
 
 QPoint BildModell::cornerMinMax() const
@@ -113,7 +100,6 @@ void BildModell::checkCurrentTransformations()
 
     else if (isGreyScale == true)
         this->grayscale();
-
 }
 
 void BildModell::affineTransformation()
@@ -145,19 +131,6 @@ void BildModell::rotateImage(int degree)
     performTransformation();
 }
 
-/*
-void BildModell::pushImageRotationAfterRelease()
-{
-    auto cmd = new Befehlrotieren(this, rotationFactor);
-    undostack->push(cmd);
-}
-
-void BildModell::pushImageScaleAfterChange(int scale)
-{
-    auto cmd = new Befehlskalieren(this, scale);
-    undostack->push(cmd);
-}
-*/
 
 void BildModell::grayscaleOnOff()
 {

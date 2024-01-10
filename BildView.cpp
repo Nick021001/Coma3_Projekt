@@ -7,6 +7,7 @@
 BildView::BildView(BildModell& modell, QWidget* parent): QWidget(parent), pmodell(modell)
 {
     connect(&modell, &BildModell::imageChanged, this, QOverload<>::of(&QWidget::update));
+    this->setFocusPolicy(Qt::StrongFocus);
 }
 
 void BildView::paintEvent(QPaintEvent *event)
