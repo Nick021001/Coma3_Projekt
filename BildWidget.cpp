@@ -86,6 +86,40 @@ BildWidget::BildWidget()
 
     dock->setAllowedAreas(Qt::RightDockWidgetArea);
 
+    //Help Button
+    QPushButton* help_button = new QPushButton();
+    QIcon help_icon(":/icons/help.jpeg");
+    help_button->setIcon(help_icon);
+    help_button->setIconSize(QSize(32, 32));
+    toolbar->addWidget(help_button);
+
+    QWidget* help_window = new QWidget();
+    help_window->setMinimumSize(500,500);
+    help_window->setWindowTitle("?Help?");
+    QVBoxLayout* helplayout = new QVBoxLayout(help_window);
+    QLabel* help_text1 = new QLabel("Hello, if you need help,<br>please take a look on the user documentation<br>or ask one of the groupmembers for advice!<br>Have fun :)");
+    QLabel* help_text2 = new QLabel("Here are some keys you might want to use:");
+
+    QGridLayout* gridLayout = new QGridLayout();
+    gridLayout->addWidget(new QLabel("[+][-]"), 0, 0);
+    gridLayout->addWidget(new QLabel(": scale"), 0, 1);
+    gridLayout->addWidget(new QLabel("[\u2192] and [\u2190]"), 1, 0);
+    gridLayout->addWidget(new QLabel(": rotate 90 degrees"), 1, 1);
+    gridLayout->addWidget(new QLabel("[\u2191] and [\u2193]"), 2, 0);
+    gridLayout->addWidget(new QLabel(": rotate 180 degrees"), 2, 1);
+    gridLayout->addWidget(new QLabel("[g]"), 3, 0);
+    gridLayout->addWidget(new QLabel(": grayscale on/off"), 3, 1);
+    gridLayout->addWidget(new QLabel("[e]"), 4, 0);
+    gridLayout->addWidget(new QLabel(": edgedetection on/off"), 4, 1);
+    gridLayout->addWidget(new QLabel("backspace/delete [\u2190]"), 5, 0);
+    gridLayout->addWidget(new QLabel(": reset"), 5, 1);
+    gridLayout->addWidget(new QLabel("return/enter [\u23CE]"), 6, 0);
+    gridLayout->addWidget(new QLabel(": save"), 6, 1);
+
+    helplayout->addWidget(help_text1);
+    helplayout->addWidget(help_text2);
+    helplayout->addLayout(gridLayout);
+
     QUndoStack* undostack = new QUndoStack;
 
     bildModell = new BildModell(this);
@@ -112,6 +146,8 @@ BildWidget::BildWidget()
     connect(upload_button, &QPushButton::clicked, bildModell, &BildModell::laden);
 
     connect(save_button, &QPushButton::clicked, bildModell, &BildModell::speichern);
+
+    connect(help_button, &QPushButton::clicked, help_window, &QWidget::show);
 
     QAction* undoAction = undostack->createUndoAction(this);
     toolbar->addAction(undoAction);

@@ -47,33 +47,12 @@ public:
         scaleFactor = scaleFac;
     }
 
-    /*
-    class Memento
-    {
-        friend class BildModell;
-
-        QImage image;
-        Memento() = default;
-    public:
-        ~Memento() = default;
-    };
-
-    using MementoPtr = std::shared_ptr<Memento>;
-
-    void setMemento(const Memento& memento);
-    MementoPtr getMemento() const;
-   */
-
 signals:
     void imageChanged();
 
 public slots:
     void scaleImage(int scale);
     void rotateImage(int degree);
-    /*
-    void pushImageRotationAfterRelease();
-    void pushImageScaleAfterChange(int scale);
-    */
     void resetImage();
     void edgeDetektionOnOff();
     void grayscaleOnOff();
@@ -84,6 +63,7 @@ private:
     QImage ImageInput; //eingeladenes Bild
     QImage image; //aktuelles Bild
     QRect rectImage;
+    QRect cutOutArea;
 
     bool cuttedOut = false;
     bool isGreyScale = false;
@@ -92,8 +72,6 @@ private:
     QTransform transformationMatrix;
     int scaleFactor = 1;
     int rotationFactor = 0;
-
-    QUndoStack* undostack = nullptr;
 
     //private Methoden, diese sollen die Rechnungen durchführen um das Bild zu verändern
     QPoint cornerMinMax() const; //berechnet die Translation für die Boundbox des Biles
