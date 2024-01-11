@@ -5,7 +5,7 @@ Befehlrotieren::Befehlrotieren(BildModell* modell, int rotationFactor)
     newRotationFactor(rotationFactor)
     ,modell(modell)
 {
-    setText(QString("Bild um %1 Grad gedreht").arg(rotationFactor));
+    setText(QString("The picture has rotated %1 degrees").arg(rotationFactor));
 }
 
 void Befehlrotieren::undo()
@@ -29,7 +29,7 @@ bool Befehlrotieren::mergeWith(const QUndoCommand* other)
     if(auto cmd = dynamic_cast<const Befehlrotieren*>(other))
     {
         newRotationFactor = cmd->newRotationFactor;
-        setText(QString("Bild um %1 Grad gedreht").arg(newRotationFactor));
+        setText(QString("The picture has rotated %1 degrees").arg(newRotationFactor));
         return true;
     }
     return false;

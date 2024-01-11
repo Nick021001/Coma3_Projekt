@@ -4,10 +4,7 @@
 #include "BildView.h"
 #include "BildWidgetController.h"
 
-#include"Befehlrotieren.h"
-
 // Qt includes
-#include <QDial>
 #include <QApplication>
 #include <QSlider>
 #include <QToolbar>
@@ -30,9 +27,11 @@
 BildWidget::BildWidget()
 {
     //resize(500, 500);
-    //scale button
+
+    /* Buttons, widget und anderer stuff*/
+    //scale spinbox
     QSpinBox* scale_spinbox = new QSpinBox();
-    scale_spinbox->setRange(1, 1000);
+    scale_spinbox->setRange(1, 10);
 
     //Rotate Button
     QSlider* rotate_slider = new QSlider(Qt::Horizontal);
@@ -49,6 +48,39 @@ BildWidget::BildWidget()
     //convert to greyscale
     QPushButton* grayscale = new QPushButton("Convert to Grayscale");
 
+    //Help Button
+    QPushButton* help_button = new QPushButton();
+    QIcon help_icon(":/icons/help.jpeg");
+    help_button->setIcon(help_icon);
+    help_button->setIconSize(QSize(32, 32));
+
+    QWidget* help_window = new QWidget();
+    help_window->setMinimumSize(500,500);
+    help_window->setWindowTitle("?Help?");
+    QVBoxLayout* helplayout = new QVBoxLayout(help_window);
+    QLabel* help_text1 = new QLabel("Hello, if you need help,<br>please take a look on the user documentation<br>or ask one of the groupmembers for advice!<br>Have fun :)");
+    QLabel* help_text2 = new QLabel("Here are some keys you might want to use:");
+
+    QGridLayout* gridLayout = new QGridLayout();
+    gridLayout->addWidget(new QLabel("[+][-]"), 0, 0);
+    gridLayout->addWidget(new QLabel(": scale"), 0, 1);
+    gridLayout->addWidget(new QLabel("[\u2192] and [\u2190]"), 1, 0);
+    gridLayout->addWidget(new QLabel(": rotate 90 degrees"), 1, 1);
+    gridLayout->addWidget(new QLabel("[\u2191] and [\u2193]"), 2, 0);
+    gridLayout->addWidget(new QLabel(": rotate 180 degrees"), 2, 1);
+    gridLayout->addWidget(new QLabel("[g]"), 3, 0);
+    gridLayout->addWidget(new QLabel(": grayscale on/off"), 3, 1);
+    gridLayout->addWidget(new QLabel("[e]"), 4, 0);
+    gridLayout->addWidget(new QLabel(": edgedetection on/off"), 4, 1);
+    gridLayout->addWidget(new QLabel("backspace/delete [\u2190]"), 5, 0);
+    gridLayout->addWidget(new QLabel(": reset"), 5, 1);
+    gridLayout->addWidget(new QLabel("return/enter [\u23CE]"), 6, 0);
+    gridLayout->addWidget(new QLabel(": save"), 6, 1);
+
+    helplayout->addWidget(help_text1);
+    helplayout->addWidget(help_text2);
+    helplayout->addLayout(gridLayout);
+
     //Toolbar
     QToolBar* toolbar = new QToolBar();
     toolbar->addWidget(scale_spinbox);
@@ -56,7 +88,10 @@ BildWidget::BildWidget()
     toolbar->addWidget(degree);
     toolbar->addWidget(edge_detektion_button);
     toolbar->addWidget(grayscale);
+    toolbar->addWidget(help_button);
 
+
+    /* Buttons für das user board*/
     //Reset Button
     QPushButton* reset_button = new QPushButton();
     QIcon reset_icon(":/icons/reset.jpeg");
@@ -86,39 +121,7 @@ BildWidget::BildWidget()
 
     dock->setAllowedAreas(Qt::RightDockWidgetArea);
 
-    //Help Button
-    QPushButton* help_button = new QPushButton();
-    QIcon help_icon(":/icons/help.jpeg");
-    help_button->setIcon(help_icon);
-    help_button->setIconSize(QSize(32, 32));
-    toolbar->addWidget(help_button);
-
-    QWidget* help_window = new QWidget();
-    help_window->setMinimumSize(500,500);
-    help_window->setWindowTitle("?Help?");
-    QVBoxLayout* helplayout = new QVBoxLayout(help_window);
-    QLabel* help_text1 = new QLabel("Hello, if you need help,<br>please take a look on the user documentation<br>or ask one of the groupmembers for advice!<br>Have fun :)");
-    QLabel* help_text2 = new QLabel("Here are some keys you might want to use:");
-
-    QGridLayout* gridLayout = new QGridLayout();
-    gridLayout->addWidget(new QLabel("[+][-]"), 0, 0);
-    gridLayout->addWidget(new QLabel(": scale"), 0, 1);
-    gridLayout->addWidget(new QLabel("[\u2192] and [\u2190]"), 1, 0);
-    gridLayout->addWidget(new QLabel(": rotate 90 degrees"), 1, 1);
-    gridLayout->addWidget(new QLabel("[\u2191] and [\u2193]"), 2, 0);
-    gridLayout->addWidget(new QLabel(": rotate 180 degrees"), 2, 1);
-    gridLayout->addWidget(new QLabel("[g]"), 3, 0);
-    gridLayout->addWidget(new QLabel(": grayscale on/off"), 3, 1);
-    gridLayout->addWidget(new QLabel("[e]"), 4, 0);
-    gridLayout->addWidget(new QLabel(": edgedetection on/off"), 4, 1);
-    gridLayout->addWidget(new QLabel("backspace/delete [\u2190]"), 5, 0);
-    gridLayout->addWidget(new QLabel(": reset"), 5, 1);
-    gridLayout->addWidget(new QLabel("return/enter [\u23CE]"), 6, 0);
-    gridLayout->addWidget(new QLabel(": save"), 6, 1);
-
-    helplayout->addWidget(help_text1);
-    helplayout->addWidget(help_text2);
-    helplayout->addLayout(gridLayout);
+    /*MVC klassen*/
 
     QUndoStack* undostack = new QUndoStack;
 
@@ -127,15 +130,11 @@ BildWidget::BildWidget()
     BildController* controller = new BildController(bildModell, undostack ,view, this);
     Bildwidgetcontroller* bildwidgetcontroller = new Bildwidgetcontroller(bildModell, undostack, view, this);
 
-    //connect(scale_spinbox, &QSpinBox::valueChanged, bildModell, &BildModell::scaleImage);
-
     connect(scale_spinbox, &QSpinBox::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushScaleafterChange);
 
-    connect(rotate_slider, &QSlider::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushRotationAfterRealse); //&BildModell::rotateImage);
+    connect(rotate_slider, &QSlider::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushRotationAfterRealse);
 
     connect(rotate_slider, &QSlider::valueChanged, degree, qOverload<int>(&QLabel::setNum));
-
-   // connect(rotate_slider, &QSlider::sliderReleased, bildwidgetcontroller, &Bildwidgetcontroller::pushRotationAfterRealse);
 
     connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscaleOnOff);
 
@@ -149,12 +148,14 @@ BildWidget::BildWidget()
 
     connect(help_button, &QPushButton::clicked, help_window, &QWidget::show);
 
+    /* Undo und Redo action*/
     QAction* undoAction = undostack->createUndoAction(this);
     toolbar->addAction(undoAction);
     toolbar->addAction(undostack->createRedoAction(this));
 
+    /* Command history view */
     QUndoView* undoView = new QUndoView(undostack);
-    QDockWidget* undoDW = new QDockWidget("Befehlshistorie");
+    QDockWidget* undoDW = new QDockWidget("Command history");
     undoDW->setWidget(undoView);
     addDockWidget(Qt::RightDockWidgetArea, undoDW);
 
@@ -163,10 +164,8 @@ BildWidget::BildWidget()
     scrollArea->setWidget(view);
     scrollArea->setWidgetResizable(true);
 
-    //auto label = new QLabel("Test");
     //Widget zusammsensetzung
     this->addToolBar(toolbar);
-    //this->setCentralWidget(view);
     this->setCentralWidget(scrollArea);
     this->addDockWidget(Qt::RightDockWidgetArea, dock);
 }

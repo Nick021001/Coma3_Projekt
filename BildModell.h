@@ -17,8 +17,6 @@ public:
 
     BildModell(QObject* parent){};
 
-    void cutOutImage(const QRect& rect);
-
     const QImage& getImage() const;
 
     const QRect& getRect() const;
@@ -63,15 +61,13 @@ private:
     QImage ImageInput; //eingeladenes Bild
     QImage image; //aktuelles Bild
     QRect rectImage;
-    QRect cutOutArea;
 
-    bool cuttedOut = false;
-    bool isGreyScale = false;
-    bool edgeDetektionOn = false;
+    bool isGreyScale = false; //gibt an ob Greyscale an ist oder nicht
+    bool edgeDetektionOn = false; //gibt an ob die Kantenerkennung an ist oder nicht
 
     QTransform transformationMatrix;
-    int scaleFactor = 1;
-    int rotationFactor = 0;
+    int scaleFactor = 1; //aktueller Skalierungsfaktor
+    int rotationFactor = 0; //aktueller Rotationsfaktor
 
     //private Methoden, diese sollen die Rechnungen durchführen um das Bild zu verändern
     QPoint cornerMinMax() const; //berechnet die Translation für die Boundbox des Biles

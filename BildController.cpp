@@ -2,7 +2,6 @@
 
 #include "BildModell.h"
 #include "BildView.h"
-#include "Befehlausschneiden.h"
 #include "Befehlrotieren.h"
 #include "Befehlskalieren.h"
 
@@ -16,48 +15,56 @@ BildController::BildController(BildModell* modell, QUndoStack* undostack ,BildVi
     pview(view),
     undostack(undostack)
 {
+    magnifierView = new QGraphicsView();
+    magnifierScene = new QGraphicsScene();
+    magnifierView->setScene(magnifierScene);
+    magnifierView->setFixedSize(200, 200); // Größe der Lupe anpassen
+    magnifierView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    magnifierView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    magnifiedItem = magnifierScene->addPixmap(QPixmap());
+    magnifiedItem->setScale(2.0); // Vergrößerungsfaktor anpassen
+    magnifierView->hide();
     pview->installEventFilter(this);
+}
+
+int BildController::adaptRotationFactor(int rotationFactor)
+{
+    if (rotationFactor > 360)
+        rotationFactor = rotationFactor - 360;
+    if (rotationFactor < 0)
+        rotationFactor = rotationFactor + 360;
+
+    return rotationFactor;
 }
 
 void BildController::mousePressEvent(QMouseEvent *event)
 {
+    /*
     rectStartPos = event->pos();
     if (!rubber)
         rubber = new QRubberBand(QRubberBand::Rectangle, pview);
     rubber->setGeometry(QRect(rectStartPos, QSize()));
     rubber->show();
+    */
+    magnifierView->show();
 }
 
 void BildController::mouseMoveEvent(QMouseEvent *event)
 {
-    rubber->setGeometry(QRect(rectStartPos, event->pos()).normalized());
+    QPointF magnifierPosition = event->pos();
+    QImage image = pmodell->getImage().copy(
+        magnifierPosition.x() - 25, // Anpassen des Ausschnitts in der Lupe
+        magnifierPosition.y() - 25, // Anpassen des Ausschnitts in der Lupe
+        200, // Größe des Ausschnitts in der Lupe anpassen
+        200 // Größe des Ausschnitts in der Lupe anpassen
+        );
+    magnifiedItem->setPixmap(QPixmap().fromImage(image));
+    magnifierView->move(event->globalPosition().x() + 20, event->globalPosition().y() + 20); // Lupe der Maus folgen lassen
 }
 
 void BildController::mouseReleaseEvent(QMouseEvent *event)
 {
-    rubber->hide();
-    if (rectStartPos == event->pos())
-    {
-        qDebug() << "single Pixel can not be displayed";
-    }
-
-    else
-    {
-        if (QVector2D(rectStartPos).length() > QVector2D(event->pos()).length())
-        {
-            QPoint endPos = rectStartPos;
-            rectStartPos = event->pos();
-            auto cmd = new Befehlausschneiden(pmodell, QRect(rectStartPos, endPos));
-            undostack->push(cmd);
-        }
-
-        else
-        {
-            auto cmd = new Befehlausschneiden(pmodell, QRect(rectStartPos, event->pos()));
-            undostack->push(cmd);
-        }
-    }
-
+    magnifierView->hide();
 }
 
 void BildController::keyPressEvent(QKeyEvent* event)
@@ -82,6 +89,7 @@ void BildController::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Up:
     {
         int rotationfactor = pmodell->getRotationFactor() + 180;
+        rotationfactor = this->adaptRotationFactor(rotationfactor);
         auto cmd = new Befehlrotieren(pmodell, rotationfactor);
         undostack->push(cmd);
         break;
@@ -89,7 +97,8 @@ void BildController::keyPressEvent(QKeyEvent* event)
     break;
     case Qt::Key_Down:
     {
-        int rotationfactor = pmodell->getRotationFactor() + 180;
+        int rotationfactor = pmodell->getRotationFactor() - 180;
+        rotationfactor = this->adaptRotationFactor(rotationfactor);
         auto cmd = new Befehlrotieren(pmodell, rotationfactor);
         undostack->push(cmd);
         break;
@@ -99,6 +108,7 @@ void BildController::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Left:
     {
         int rotationfactor = pmodell->getRotationFactor() - 90;
+        rotationfactor = this->adaptRotationFactor(rotationfactor);
         auto cmd = new Befehlrotieren(pmodell, rotationfactor);
         undostack->push(cmd);
         break;
@@ -106,6 +116,7 @@ void BildController::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Right:
     {
         int rotationfactor = pmodell->getRotationFactor() + 90;
+        rotationfactor = this->adaptRotationFactor(rotationfactor);
         auto cmd = new Befehlrotieren(pmodell, rotationfactor);
         undostack->push(cmd);
         break;
