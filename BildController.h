@@ -30,6 +30,9 @@ class BildController: public QObject
     void keyPressEvent(QKeyEvent *event);
     bool eventFilter(QObject *watched, QEvent *event);
     int adaptRotationFactor(int rotationFactor); // sorgt dafür das der Rotationsfactor immer zwischen 0 und 360 grad liegt.
+    void pushRotationToStack(int rotationFactor);
+    void pushScaleToStack(int scaleFactor);
+    int adaptScaleFactor(int scaleFactor);
 
 public:
     BildController(BildModell* modell, QUndoStack* undostack, BildView* view, QObject *parent);

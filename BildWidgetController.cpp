@@ -20,3 +20,18 @@ void Bildwidgetcontroller::pushScaleafterChange(int scaleFactor)
     auto cmd = new Befehlskalieren(pmodell, scaleFactor);
     undostack->push(cmd);
 }
+
+void Bildwidgetcontroller::setGreyScaleOnOff()
+{
+    pmodell->grayscaleOnOff();
+}
+
+void Bildwidgetcontroller::setEdgeDeketionOnOff()
+{
+    pmodell->edgeDetektionOnOff();
+}
+
+void Bildwidgetcontroller::setResetImage()
+{
+    pmodell->resetImage();
+}

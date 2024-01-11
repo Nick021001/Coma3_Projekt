@@ -21,39 +21,30 @@ public:
 
     const QRect& getRect() const;
 
+    int getRotationFactor() const;
+
+    void setRotationFactor(int rotationFac);
+
+    int getScaleFactor() const;
+
+    void setScaleFactor(int scaleFac);
+
+    void scaleImage(int scale);
+
+    void rotateImage(int degree);
+
+    void resetImage();
+
+    void edgeDetektionOnOff();
+
+    void grayscaleOnOff();
+
     void performTransformation(); //führt alle Transformationen aus
-
-
-    // inline methods
-    inline int getRotationFactor()
-    {
-        return rotationFactor;
-    }
-
-    inline void setRotationFactor(int rotationFac)
-    {
-        rotationFactor = rotationFac;
-    }
-
-    inline int getScaleFactor()
-    {
-        return scaleFactor;
-    }
-
-    inline void setScaleFactor(int scaleFac)
-    {
-        scaleFactor = scaleFac;
-    }
 
 signals:
     void imageChanged();
 
 public slots:
-    void scaleImage(int scale);
-    void rotateImage(int degree);
-    void resetImage();
-    void edgeDetektionOnOff();
-    void grayscaleOnOff();
     bool laden();
     bool speichern();
 
@@ -65,7 +56,6 @@ private:
     bool isGreyScale = false; //gibt an ob Greyscale an ist oder nicht
     bool edgeDetektionOn = false; //gibt an ob die Kantenerkennung an ist oder nicht
 
-    QTransform transformationMatrix;
     int scaleFactor = 1; //aktueller Skalierungsfaktor
     int rotationFactor = 0; //aktueller Rotationsfaktor
 

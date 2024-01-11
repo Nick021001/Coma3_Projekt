@@ -17,6 +17,9 @@ class Bildwidgetcontroller: public QObject
 public slots:
     void pushRotationAfterRealse(int rotationFactor);
     void pushScaleafterChange(int scaleFactor);
+    void setGreyScaleOnOff();
+    void setEdgeDeketionOnOff();
+    void setResetImage();
 
 public:
     Bildwidgetcontroller(BildModell* modell, QUndoStack* undostack ,BildView* view, QObject *parent);
