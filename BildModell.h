@@ -21,8 +21,6 @@ public:
 
     const QRect& getRect() const;
 
-    void performTransformation(); //führt alle Transformationen aus
-
 
     // inline methods
     inline int getRotationFactor()
@@ -44,6 +42,8 @@ public:
     {
         scaleFactor = scaleFac;
     }
+
+    void performTransformation(); //führt alle Transformationen aus
 
 signals:
     void imageChanged();

@@ -97,6 +97,7 @@ void BildModell::affineTransformation()
 {
     double rad = rotationFactor * pi/180;
     transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
+    //transformationMatrix1.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
     rectImage = transformationMatrix.mapRect(ImageInput.rect()); //Transformation der BoundingBox
     rectImage.translate(-1*cornerMinMax()); //translation der Boundingbox in den positiven x und y bereich.
     image = ImageInput.transformed(transformationMatrix); //Transformation des Bildes.
