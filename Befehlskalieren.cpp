@@ -26,10 +26,10 @@ bool Befehlskalieren::mergeWith(const QUndoCommand* other)
 {
     if(auto cmd = dynamic_cast<const Befehlskalieren*>(other))
     {
+
         newScaleFactor = cmd->newScaleFactor;
         setText(QString("The picture was scaled with the factor %1").arg(newScaleFactor));
         return true;
-
     }
     return false;
 }

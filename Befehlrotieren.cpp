@@ -18,7 +18,6 @@ void Befehlrotieren::redo()
     modell->rotateImage(newRotationFactor);
 }
 
-
 int Befehlrotieren::id() const
 {
     return 1;

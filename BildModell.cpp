@@ -3,6 +3,7 @@
 #include <QErrorMessage>
 #include <qdebug.h>
 #include <QFileDialog>
+#include <QMessageBox>
 
 namespace
 {
@@ -19,6 +20,26 @@ const QRect& BildModell::getRect() const
     return rectImage;
 }
 
+int BildModell::getRotationFactor() const
+{
+    return rotationFactor;
+}
+
+int BildModell::getScaleFactor() const
+{
+    return scaleFactor;
+}
+
+void BildModell::setRotationFactor(int rotationFac)
+{
+    rotationFactor = rotationFac;
+}
+
+void BildModell::setScaleFactor(int scaleFac)
+{
+    scaleFactor = scaleFac;
+}
+
 bool BildModell::laden() {
     QString filePath = QFileDialog::getOpenFileName(nullptr, tr("Bild öffnen"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
         if (!filePath.isEmpty())
@@ -31,7 +52,7 @@ bool BildModell::laden() {
         return true;
     }
     else{
-        qDebug() << "Fehler beim Laden des Bildes: " << filePath;
+        QMessageBox::critical(nullptr, tr("Error Loading Image"), tr("An error occurred while loading the image. Please check the selected file and try again."));
     }
 
     return false;
@@ -41,17 +62,18 @@ bool BildModell::speichern() {
     QString filename = QFileDialog::getSaveFileName(nullptr, tr("Bild speichern"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
     if (!filename.isEmpty()) {
         if (image.isNull()) {
-            qDebug() << "Kein Bild zum Speichern vorhanden.";
+            //qDebug() << "Kein Bild zum Speichern vorhanden.";
+            QMessageBox::critical(nullptr, tr("Error save Image"), tr("There is no image to save."));
             return false;
         }
         if (!image.save(filename)) {
-            qDebug() << "Fehler beim Speichern des Bildes:" << filename;
+            QMessageBox::critical(nullptr, tr("Error Saving Image"), tr("An error occurred while saving the image to the file: %1").arg(filename));
             return false;
         }
-        qDebug() << "Bild erfolgreich gespeichert unter: " << filename;
+        QMessageBox::information(nullptr, tr("Image Saved"), tr("The image has been saved successfully."));
         return true;
     } else {
-        qDebug() << "Speichern vom Benutzer abgebrochen.";
+        QMessageBox::information(nullptr, tr("Operation Cancelled"), tr("Saving operation cancelled by the user."));
         return false;
     }
 }
@@ -96,6 +118,7 @@ void BildModell::checkCurrentTransformations()
 void BildModell::affineTransformation()
 {
     double rad = rotationFactor * pi/180;
+    QTransform transformationMatrix;
     transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
     rectImage = transformationMatrix.mapRect(ImageInput.rect()); //Transformation der BoundingBox
     rectImage.translate(-1*cornerMinMax()); //translation der Boundingbox in den positiven x und y bereich.
@@ -158,7 +181,6 @@ void BildModell::grayscale()
        this->performTransformation();
     }
 }
-
 
 void BildModell::edgeDetektion()
 {

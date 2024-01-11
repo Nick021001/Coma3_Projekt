@@ -37,15 +37,15 @@ int BildController::adaptRotationFactor(int rotationFactor)
     return rotationFactor;
 }
 
+int BildController::adaptScaleFactor(int scaleFactor)
+{
+    scaleFactor = qBound(1, scaleFactor, 6);
+
+    return scaleFactor;
+}
+
 void BildController::mousePressEvent(QMouseEvent *event)
 {
-    /*
-    rectStartPos = event->pos();
-    if (!rubber)
-        rubber = new QRubberBand(QRubberBand::Rectangle, pview);
-    rubber->setGeometry(QRect(rectStartPos, QSize()));
-    rubber->show();
-    */
     magnifierView->show();
 }
 
@@ -74,43 +74,36 @@ void BildController::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Plus:
     {
         int scalefactor = pmodell->getScaleFactor()  + 1;
-        auto cmd = new Befehlskalieren(pmodell, scalefactor);
-        undostack->push(cmd);
+        scalefactor = this->adaptScaleFactor(scalefactor);
+        this->pushScaleToStack(scalefactor);
         break;
     }
     case Qt::Key_Minus:
     {
         int scalefactor = pmodell->getScaleFactor() -1;
-        auto cmd = new Befehlskalieren(pmodell, scalefactor);
-        undostack->push(cmd);
+        scalefactor = this->adaptScaleFactor(scalefactor);
+        this->pushScaleToStack(scalefactor);
         break;
     }
-    break;
     case Qt::Key_Up:
     {
         int rotationfactor = pmodell->getRotationFactor() + 180;
         rotationfactor = this->adaptRotationFactor(rotationfactor);
-        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
-        undostack->push(cmd);
+        this->pushRotationToStack(rotationfactor);
         break;
     }
-    break;
     case Qt::Key_Down:
     {
         int rotationfactor = pmodell->getRotationFactor() - 180;
         rotationfactor = this->adaptRotationFactor(rotationfactor);
-        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
-        undostack->push(cmd);
+        this->pushRotationToStack(rotationfactor);
         break;
     }
-    break;
-
     case Qt::Key_Left:
     {
         int rotationfactor = pmodell->getRotationFactor() - 90;
         rotationfactor = this->adaptRotationFactor(rotationfactor);
-        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
-        undostack->push(cmd);
+        this->pushRotationToStack(rotationfactor);
         break;
     }
     case Qt::Key_Right:
@@ -121,7 +114,6 @@ void BildController::keyPressEvent(QKeyEvent* event)
         undostack->push(cmd);
         break;
     }
-
     case Qt::Key_G:     //Greyscale
         pmodell->grayscaleOnOff();
         break;
@@ -149,8 +141,6 @@ bool BildController::eventFilter(QObject *watched, QEvent *event)
     if (watched == pview) {
         switch(event->type()) // Bestimmen des Ereignistyps (siehe auch Folien zur Ereignisbehandlung)
         {
-        // relevante Ereignistypen behandeln:
-        // cast auf speziellen Typ durchführen und die speziellen Event-Methoden aufrufen (der Übersichtlichkeitshalber)
         case QEvent::MouseButtonPress:
             mousePressEvent(dynamic_cast<QMouseEvent*>(event));
             break;
@@ -169,4 +159,16 @@ bool BildController::eventFilter(QObject *watched, QEvent *event)
     }
 
     return QObject::eventFilter(watched, event);
+}
+
+void BildController::pushRotationToStack(int rotationFactor)
+{
+    auto cmd = new Befehlrotieren(pmodell, rotationFactor);
+    undostack->push(cmd);
+}
+
+void BildController::pushScaleToStack(int scaleFactor)
+{
+    auto cmd = new Befehlskalieren(pmodell, scaleFactor);
+    undostack->push(cmd);
 }

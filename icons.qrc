@@ -3,7 +3,8 @@
         <file>save.jpeg</file>
         <file>undo.jpeg</file>
         <file>reset.jpeg</file>
-        <file>redo.jpeg</file>
         <file>help.jpeg</file>
+        <file>upload.jpeg</file>
+        <file>redo.png</file>
     </qresource>
 </RCC>

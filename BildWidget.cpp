@@ -22,6 +22,7 @@
 #include <QUndoView>
 #include <QIcon>
 #include <QScrollArea>
+#include <QMessageBox>
 
 
 BildWidget::BildWidget()
@@ -43,10 +44,10 @@ BildWidget::BildWidget()
     QLabel* degree = new QLabel("0");
 
     //edge detektion
-    QPushButton* edge_detektion_button = new QPushButton("edge detektion");
+    QPushButton* edge_detection_button = new QPushButton("edge detection");
 
     //convert to greyscale
-    QPushButton* grayscale = new QPushButton("Convert to Grayscale");
+    QPushButton* grayscale_button = new QPushButton("Convert to Grayscale");
 
     //Help Button
     QPushButton* help_button = new QPushButton();
@@ -86,8 +87,8 @@ BildWidget::BildWidget()
     toolbar->addWidget(scale_spinbox);
     toolbar->addWidget(rotate_slider);
     toolbar->addWidget(degree);
-    toolbar->addWidget(edge_detektion_button);
-    toolbar->addWidget(grayscale);
+    toolbar->addWidget(edge_detection_button);
+    toolbar->addWidget(grayscale_button);
     toolbar->addWidget(help_button);
 
 
@@ -99,23 +100,25 @@ BildWidget::BildWidget()
     reset_button->setIconSize(QSize(32, 32));
 
     //Speicher Button
-    QPushButton* save_button = new QPushButton("save");
+    QPushButton* save_button = new QPushButton("Save");
     QIcon save_icon(":/icons/save.jpeg");
     save_button->setIcon(save_icon);
 
-    QPushButton* upload_button = new QPushButton("upload");
+    QPushButton* upload_button = new QPushButton("Upload");
+    QIcon upload_icon(":/icons/upload.jpeg");
+    upload_button->setIcon(upload_icon);
 
     //Dockwidget
     QWidget* dock_widget_content = new QWidget;
     //QWidget* dock_widget = new QWidget;
-    QDockWidget* dock = new QDockWidget("user board");//, dock_widget);
+    QDockWidget* dock = new QDockWidget("User board");//, dock_widget);
 
     dock->setWidget(dock_widget_content);
 
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
-    layout->addWidget(save_button);
     layout->addWidget(reset_button);
     layout->addWidget(upload_button);
+    layout->addWidget(save_button);
 
     dock_widget_content->setLayout(layout);
 
@@ -134,13 +137,13 @@ BildWidget::BildWidget()
 
     connect(rotate_slider, &QSlider::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushRotationAfterRealse);
 
+    connect(grayscale_button, &QPushButton::clicked, bildwidgetcontroller, &Bildwidgetcontroller::setGreyScaleOnOff);
+
+    connect(edge_detection_button, &QPushButton::clicked, bildwidgetcontroller, &Bildwidgetcontroller::setEdgeDeketionOnOff);
+
+    connect(reset_button, &QPushButton::clicked, bildwidgetcontroller, &Bildwidgetcontroller::setResetImage);
+
     connect(rotate_slider, &QSlider::valueChanged, degree, qOverload<int>(&QLabel::setNum));
-
-    connect(grayscale, &QPushButton::clicked, bildModell, &BildModell::grayscaleOnOff);
-
-    connect(edge_detektion_button, &QPushButton::clicked, bildModell, &BildModell::edgeDetektionOnOff);
-
-    connect(reset_button, &QPushButton::clicked, bildModell, &BildModell::resetImage);
 
     connect(upload_button, &QPushButton::clicked, bildModell, &BildModell::laden);
 
@@ -150,8 +153,13 @@ BildWidget::BildWidget()
 
     /* Undo und Redo action*/
     QAction* undoAction = undostack->createUndoAction(this);
+    QAction* redoAction = undostack->createRedoAction(this);
+    QIcon undo_icon(":/icons/undo.jpeg");
+    undoAction->setIcon(undo_icon);
+    QIcon redo_icon(":/icons/redo.png");
+    redoAction->setIcon(redo_icon);
     toolbar->addAction(undoAction);
-    toolbar->addAction(undostack->createRedoAction(this));
+    toolbar->addAction(redoAction);
 
     /* Command history view */
     QUndoView* undoView = new QUndoView(undostack);
