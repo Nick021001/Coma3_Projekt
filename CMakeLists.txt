@@ -37,8 +37,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         Befehlrotieren.h
         Befehlrotieren.cpp
-        Befehlausschneiden.h
-        Befehlausschneiden.cpp
+
+
         Befehlskalieren.h
         Befehlskalieren.cpp
         icons.qrc

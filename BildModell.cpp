@@ -9,15 +9,6 @@ namespace
 constexpr double pi = 3.14159265358979323846;
 }
 
-void BildModell::cutOutImage(const QRect& rect)
-{
-    rectImage = rect;
-    image = image.copy(rect);
-    rectImage.moveTo(QPoint());
-    cuttedOut = true;
-    cutOutArea = rect;
-    emit BildModell::imageChanged();
-}
 const QImage& BildModell::getImage() const
 {
     return image;
@@ -106,9 +97,9 @@ void BildModell::affineTransformation()
 {
     double rad = rotationFactor * pi/180;
     transformationMatrix.setMatrix(scaleFactor * cos(rad), -scaleFactor * sin(rad), 0, scaleFactor * sin(rad),scaleFactor * cos(rad),0,0,0,1);
-    rectImage = transformationMatrix.mapRect(ImageInput.rect());
-    rectImage.translate(-1*cornerMinMax());
-    image = ImageInput.transformed(transformationMatrix);
+    rectImage = transformationMatrix.mapRect(ImageInput.rect()); //Transformation der BoundingBox
+    rectImage.translate(-1*cornerMinMax()); //translation der Boundingbox in den positiven x und y bereich.
+    image = ImageInput.transformed(transformationMatrix); //Transformation des Bildes.
 }
 
 void BildModell::performTransformation()
@@ -181,7 +172,6 @@ void BildModell::resetImage()
 {
     image = ImageInput;
     rectImage = ImageInput.rect();
-    cuttedOut = false;
     edgeDetektionOn = false;
     isGreyScale = false;
     emit BildModell::imageChanged();
