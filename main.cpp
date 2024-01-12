@@ -1,10 +1,10 @@
-#include "BildWidget.h"
+#include "MainWidget.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    BildWidget w;
+    MainWidget w;
     w.show();
     return a.exec();
 }

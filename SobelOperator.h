@@ -9,6 +9,7 @@ class SobelOperator: public ImageArray
 {
     int imageWidth;
     int imageHeight;
+
 public:
     SobelOperator(const QImage& image);
 

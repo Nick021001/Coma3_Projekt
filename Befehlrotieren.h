@@ -6,6 +6,10 @@
 
 class Befehlrotieren: public QUndoCommand
 {
+    int oldRotationFactor = 0;
+    int newRotationFactor;
+    BildModell* modell = nullptr;
+
 public:
     Befehlrotieren(BildModell* modell, int rotationFactor);
 
@@ -14,13 +18,6 @@ public:
 
     int id() const override;
     bool mergeWith(const QUndoCommand* other) override;
-
-
-private:
-    int oldRotationFactor = 0;
-    int newRotationFactor;
-    BildModell* modell = nullptr;
-
 };
 
 

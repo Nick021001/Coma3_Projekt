@@ -6,6 +6,10 @@
 
 class Befehlskalieren: public QUndoCommand
 {
+    int oldScaleFactor = 1;
+    int newScaleFactor;
+    BildModell* pmodell;
+
 public:
     Befehlskalieren(BildModell* modell, int scaleFactor);
 
@@ -13,12 +17,6 @@ public:
     void redo() override;
     int id() const override;
     bool mergeWith(const QUndoCommand* other) override;
-
-private:
-    int oldScaleFactor = 1;
-    int newScaleFactor;
-    BildModell* pmodell;
-
 };
 
 #endif // BEFEHLSKALIEREN_H

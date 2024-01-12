@@ -40,7 +40,7 @@ void BildModell::setScaleFactor(int scaleFac)
     scaleFactor = scaleFac;
 }
 
-bool BildModell::laden() {
+bool BildModell::upload() {
     QString filePath = QFileDialog::getOpenFileName(nullptr, tr("Bild öffnen"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
         if (!filePath.isEmpty())
     {
@@ -58,11 +58,10 @@ bool BildModell::laden() {
     return false;
 }
 
-bool BildModell::speichern() {
+bool BildModell::save() {
     QString filename = QFileDialog::getSaveFileName(nullptr, tr("Bild speichern"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
     if (!filename.isEmpty()) {
         if (image.isNull()) {
-            //qDebug() << "Kein Bild zum Speichern vorhanden.";
             QMessageBox::critical(nullptr, tr("Error save Image"), tr("There is no image to save."));
             return false;
         }
@@ -111,7 +110,7 @@ void BildModell::checkCurrentTransformations()
     if (edgeDetektionOn == true)
         this->edgeDetektion();
 
-    else if (isGreyScale == true)
+    else if (isGrayScale == true)
         this->grayscale();
 }
 
@@ -148,15 +147,15 @@ void BildModell::rotateImage(int degree)
 
 void BildModell::grayscaleOnOff()
 {
-    if (isGreyScale == false)
+    if (isGrayScale == false)
     {
-        isGreyScale = true;
+        isGrayScale = true;
         this->performTransformation();
     }
 
     else
     {
-        isGreyScale = false;
+        isGrayScale = false;
         this->performTransformation();
     }
 }
@@ -195,7 +194,7 @@ void BildModell::resetImage()
     image = ImageInput;
     rectImage = ImageInput.rect();
     edgeDetektionOn = false;
-    isGreyScale = false;
+    isGrayScale = false;
     emit BildModell::imageChanged();
 }
 

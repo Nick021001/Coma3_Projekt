@@ -29,8 +29,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         BildController.h
         BildController.cpp
         BildView.cpp
-        BildWidget.h
-        BildWidget.cpp
+        MainWidget.h
+        MainWidget.cpp
         SobelOperator.h
         SobelOperator.cpp
 
@@ -42,8 +42,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Befehlskalieren.h
         Befehlskalieren.cpp
         icons.qrc
-        BildWidgetController.h
-        BildWidgetController.cpp
+        MainWidgetController.h
+        MainWidgetController.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Coma3_Projekt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
