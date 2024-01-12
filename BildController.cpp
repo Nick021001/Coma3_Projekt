@@ -130,16 +130,15 @@ void BildController::keyPressEvent(QKeyEvent* event)
         break;
 
     case Qt::Key_Return: //save
-        pmodell->speichern();
+        pmodell->save();
         break;
     }
-
 }
 
 bool BildController::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == pview) {
-        switch(event->type()) // Bestimmen des Ereignistyps (siehe auch Folien zur Ereignisbehandlung)
+        switch(event->type())
         {
         case QEvent::MouseButtonPress:
             mousePressEvent(dynamic_cast<QMouseEvent*>(event));

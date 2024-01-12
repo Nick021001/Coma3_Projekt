@@ -1,38 +1,34 @@
-#include "BildWidget.h"
+#include "MainWidget.h"
 #include "BildModell.h"
 #include "BildController.h"
 #include "BildView.h"
-#include "BildWidgetController.h"
+#include "MainWidgetController.h"
 
 // Qt includes
-#include <QApplication>
 #include <QSlider>
-#include <QToolbar>
+#include <QToolBar>
 #include <QComboBox>
 #include <QDockWidget>
-#include <QDoubleSpinBox>
 #include <QPushButton>
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QMenuBar>
 #include <QSpinBox>
 #include <QObject>
 #include <QUndoStack>
 #include <QUndoView>
 #include <QIcon>
 #include <QScrollArea>
-#include <QMessageBox>
 
 
-BildWidget::BildWidget()
+MainWidget::MainWidget()
 {
     //resize(500, 500);
 
     /* Buttons, widget und anderer stuff*/
     //scale spinbox
     QSpinBox* scale_spinbox = new QSpinBox();
-    scale_spinbox->setRange(1, 10);
+    scale_spinbox->setRange(1, 6);
 
     //Rotate Button
     QSlider* rotate_slider = new QSlider(Qt::Horizontal);
@@ -44,10 +40,26 @@ BildWidget::BildWidget()
     QLabel* degree = new QLabel("0");
 
     //edge detektion
-    QPushButton* edge_detection_button = new QPushButton("edge detection");
+    QPushButton* edge_detection_button = new QPushButton("Edge Detection");
 
     //convert to greyscale
     QPushButton* grayscale_button = new QPushButton("Convert to Grayscale");
+
+    /* Buttons für das user board*/
+    //Reset Button
+    QPushButton* reset_button = new QPushButton();
+    QIcon reset_icon(":/icons/reset.jpeg");
+    reset_button->setIcon(reset_icon);
+    reset_button->setIconSize(QSize(32, 32));
+
+    //Toolbar
+    QToolBar* toolbar = new QToolBar();
+    toolbar->addWidget(scale_spinbox);
+    toolbar->addWidget(rotate_slider);
+    toolbar->addWidget(degree);
+    toolbar->addWidget(edge_detection_button);
+    toolbar->addWidget(grayscale_button);
+    toolbar->addWidget(reset_button);
 
     //Help Button
     QPushButton* help_button = new QPushButton();
@@ -55,6 +67,7 @@ BildWidget::BildWidget()
     help_button->setIcon(help_icon);
     help_button->setIconSize(QSize(32, 32));
 
+    //Help window
     QWidget* help_window = new QWidget();
     help_window->setMinimumSize(500,500);
     help_window->setWindowTitle("?Help?");
@@ -82,28 +95,12 @@ BildWidget::BildWidget()
     helplayout->addWidget(help_text2);
     helplayout->addLayout(gridLayout);
 
-    //Toolbar
-    QToolBar* toolbar = new QToolBar();
-    toolbar->addWidget(scale_spinbox);
-    toolbar->addWidget(rotate_slider);
-    toolbar->addWidget(degree);
-    toolbar->addWidget(edge_detection_button);
-    toolbar->addWidget(grayscale_button);
-    toolbar->addWidget(help_button);
-
-
-    /* Buttons für das user board*/
-    //Reset Button
-    QPushButton* reset_button = new QPushButton();
-    QIcon reset_icon(":/icons/reset.jpeg");
-    reset_button->setIcon(reset_icon);
-    reset_button->setIconSize(QSize(32, 32));
-
     //Speicher Button
     QPushButton* save_button = new QPushButton("Save");
     QIcon save_icon(":/icons/save.jpeg");
     save_button->setIcon(save_icon);
 
+    //Laden Button
     QPushButton* upload_button = new QPushButton("Upload");
     QIcon upload_icon(":/icons/upload.jpeg");
     upload_button->setIcon(upload_icon);
@@ -116,9 +113,9 @@ BildWidget::BildWidget()
     dock->setWidget(dock_widget_content);
 
     QVBoxLayout* layout = new QVBoxLayout(dock_widget_content);
-    layout->addWidget(reset_button);
     layout->addWidget(upload_button);
     layout->addWidget(save_button);
+    layout->addWidget(help_button);
 
     dock_widget_content->setLayout(layout);
 
@@ -131,23 +128,23 @@ BildWidget::BildWidget()
     bildModell = new BildModell(this);
     BildView* view = new BildView(*bildModell, this);
     BildController* controller = new BildController(bildModell, undostack ,view, this);
-    Bildwidgetcontroller* bildwidgetcontroller = new Bildwidgetcontroller(bildModell, undostack, view, this);
+    Mainwidgetcontroller* mainwidgetcontroller = new Mainwidgetcontroller(bildModell, undostack, view, this);
 
-    connect(scale_spinbox, &QSpinBox::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushScaleafterChange);
+    connect(scale_spinbox, &QSpinBox::valueChanged, mainwidgetcontroller, &Mainwidgetcontroller::pushScaleafterChange);
 
-    connect(rotate_slider, &QSlider::valueChanged, bildwidgetcontroller, &Bildwidgetcontroller::pushRotationAfterRealse);
+    connect(rotate_slider, &QSlider::valueChanged, mainwidgetcontroller, &Mainwidgetcontroller::pushRotationAfterRealse);
 
-    connect(grayscale_button, &QPushButton::clicked, bildwidgetcontroller, &Bildwidgetcontroller::setGreyScaleOnOff);
+    connect(grayscale_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::setGreyScaleOnOff);
 
-    connect(edge_detection_button, &QPushButton::clicked, bildwidgetcontroller, &Bildwidgetcontroller::setEdgeDeketionOnOff);
+    connect(edge_detection_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::setEdgeDeketionOnOff);
 
-    connect(reset_button, &QPushButton::clicked, bildwidgetcontroller, &Bildwidgetcontroller::setResetImage);
+    connect(reset_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::setResetImage);
 
     connect(rotate_slider, &QSlider::valueChanged, degree, qOverload<int>(&QLabel::setNum));
 
-    connect(upload_button, &QPushButton::clicked, bildModell, &BildModell::laden);
+    connect(upload_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::uploadImage);
 
-    connect(save_button, &QPushButton::clicked, bildModell, &BildModell::speichern);
+    connect(save_button, &QPushButton::clicked,  mainwidgetcontroller, &Mainwidgetcontroller::saveImage);
 
     connect(help_button, &QPushButton::clicked, help_window, &QWidget::show);
 
@@ -161,13 +158,13 @@ BildWidget::BildWidget()
     toolbar->addAction(undoAction);
     toolbar->addAction(redoAction);
 
-    /* Command history view */
+    /* Befehlshistorie */
     QUndoView* undoView = new QUndoView(undostack);
     QDockWidget* undoDW = new QDockWidget("Command history");
     undoDW->setWidget(undoView);
     addDockWidget(Qt::RightDockWidgetArea, undoDW);
 
-    view->setFixedSize(1400, 1400);
+    view->setFixedSize(1600, 1600);
     QScrollArea* scrollArea = new QScrollArea();
     scrollArea->setWidget(view);
     scrollArea->setWidgetResizable(true);
