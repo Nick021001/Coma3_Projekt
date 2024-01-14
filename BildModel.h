@@ -15,7 +15,7 @@ class BildModel: public QObject
     QRect rectImage;
 
     bool isGrayScale = false; //gibt an ob Grayscale an ist oder nicht
-    bool edgeDetektionOn = false; //gibt an ob die Kantenerkennung an ist oder nicht
+    bool edgeDetectionOn = false; //gibt an ob die Kantenerkennung an ist oder nicht
 
     int scaleFactor = 1; //aktueller Skalierungsfaktor
     int rotationFactor = 0; //aktueller Rotationsfaktor
@@ -24,7 +24,7 @@ class BildModel: public QObject
     QPoint cornerMinMax() const; //berechnet die Translation für die Boundingbox des Biles
     void checkCurrentTransformations(); //checkt ob die nicht affinen Transformationen an sind und führt sie aus
     void affineTransformation(); //berechnet die Affine Transformation des Bildes
-    void edgeDetektion(); //berechnet die Kantenerkennung
+    void edgeDetection(); //berechnet die Kantenerkennung
     void grayscale(); //wandelt das Bild in ein Graustufenbild um
 
 public:

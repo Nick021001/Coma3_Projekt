@@ -106,8 +106,8 @@ QPoint BildModel::cornerMinMax() const
 void BildModel::checkCurrentTransformations()
 {
 
-    if (edgeDetektionOn == true)
-        this->edgeDetektion();
+    if (edgeDetectionOn == true)
+        this->edgeDetection();
 
     else if (isGrayScale == true)
         this->grayscale();
@@ -167,20 +167,20 @@ void BildModel::grayscale()
 
  void BildModel::edgeDetectionOnOff()
 {
-    if (edgeDetektionOn == false)
+    if (edgeDetectionOn == false)
     {
-       edgeDetektionOn = true;
+       edgeDetectionOn = true;
        this->performTransformation();
     }
 
     else
     {
-       edgeDetektionOn = false;
+       edgeDetectionOn = false;
        this->performTransformation();
     }
 }
 
-void BildModel::edgeDetektion()
+void BildModel::edgeDetection()
 {
 
     SobelOperator edgeImage(this->image);
@@ -192,7 +192,7 @@ void BildModel::resetImage()
 {
     image = ImageInput;
     rectImage = ImageInput.rect();
-    edgeDetektionOn = false;
+    edgeDetectionOn = false;
     isGrayScale = false;
     emit BildModel::imageChanged();
 }
