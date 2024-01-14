@@ -4,18 +4,18 @@
 #include <QObject>
 #include <QMouseEvent>
 #include <QEvent>
-#include <QRubberBand>
+#include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 
-class BildModell;
+class BildModel;
 class BildView;
 class QUndoStack;
 
 class BildController: public QObject
 {
     Q_OBJECT
-    BildModell* pmodell;
+    BildModel* pmodel;
     BildView* pview;
 
     QUndoStack* undostack = nullptr;
@@ -29,13 +29,13 @@ class BildController: public QObject
     void mouseMoveEvent(QMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
     bool eventFilter(QObject *watched, QEvent *event);
-    int adaptRotationFactor(int rotationFactor); // sorgt dafür das der Rotationsfactor immer zwischen 0 und 360 grad liegt.
     void pushRotationToStack(int rotationFactor);
     void pushScaleToStack(int scaleFactor);
+    int adaptRotationFactor(int rotationFactor); // sorgt dafür das der Rotationsfactor immer zwischen 0 und 360 grad liegt.
     int adaptScaleFactor(int scaleFactor);
 
 public:
-    BildController(BildModell* modell, QUndoStack* undostack, BildView* view, QObject *parent);
+    BildController(BildModel* model, QUndoStack* undostack, BildView* view, QObject *parent);
 };
 
 #endif // BILDCONTROLLER_H

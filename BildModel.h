@@ -1,16 +1,13 @@
-#ifndef BILDMODELL_H
-#define BILDMODELL_H
+#ifndef BILDMODEL_H
+#define BILDMODEL_H
 
 #include <QImage>
-#include <QWidget>
-#include <QPointF>
 #include <QString>
 #include <QRect>
-#include <QSize>
 #include <QTransform>
-#include <QUndoStack>
+#include <QObject>
 
-class BildModell: public QObject
+class BildModel: public QObject
 {
     Q_OBJECT
     QImage ImageInput; //eingeladenes Bild
@@ -32,7 +29,7 @@ class BildModell: public QObject
 
 public:
 
-    BildModell(QObject* parent){};
+    BildModel(QObject* parent){};
 
     const QImage& getImage() const;
 
@@ -52,7 +49,7 @@ public:
 
     void resetImage();
 
-    void edgeDetektionOnOff();
+    void edgeDetectionOnOff();
 
     void grayscaleOnOff();
 
@@ -66,4 +63,4 @@ signals:
     void imageChanged();
 };
 
-#endif // BILDMODELL_H
+#endif // BILDMODEL_H

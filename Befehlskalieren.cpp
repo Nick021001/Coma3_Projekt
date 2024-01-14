@@ -1,21 +1,21 @@
 #include "Befehlskalieren.h"
 
-Befehlskalieren::Befehlskalieren(BildModell* modell, int scaleFactor)
-    :oldScaleFactor(modell->getScaleFactor()),
+Befehlskalieren::Befehlskalieren(BildModel* model, int scaleFactor)
+    :oldScaleFactor(model->getScaleFactor()),
     newScaleFactor(scaleFactor)
-    ,pmodell(modell)
+    ,pmodel(model)
 {
     this->setText(QString("The picture was scaled with the factor %1").arg(scaleFactor));
 }
 
 void Befehlskalieren::undo()
 {
-    pmodell->scaleImage(oldScaleFactor);
+    pmodel->scaleImage(oldScaleFactor);
 }
 
 void Befehlskalieren::redo()
 {
-    pmodell->scaleImage(newScaleFactor);
+    pmodel->scaleImage(newScaleFactor);
 }
 
 int Befehlskalieren::id() const

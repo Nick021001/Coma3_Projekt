@@ -3,19 +3,18 @@
 
 #include <QWidget>
 
-class BildModell;
+class BildModel;
 
 class BildView: public QWidget
 {
    Q_OBJECT
 
-   BildModell& pmodell;
+   BildModel& pmodel;
 
 public:
-   BildView(BildModell& modell, QWidget *parent = nullptr);
+   BildView(BildModel& model, QWidget *parent = nullptr);
     ~BildView(){}
 
-    // QWidget interface
 protected:
     void paintEvent(QPaintEvent *event);
 };

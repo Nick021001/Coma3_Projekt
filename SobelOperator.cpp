@@ -18,7 +18,6 @@ SobelOperator::SobelOperator(const QImage& image)
     }
 }
 
-
 QImage SobelOperator::applySobel() {
     vector<int> sobelGx = {1, 0, -1, 2, 0, -2, 1, 0, -1};
     vector<int> sobelGy = {1, 2, 1, 0, 0, 0, -1, -2, -1};

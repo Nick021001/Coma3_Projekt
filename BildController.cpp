@@ -1,17 +1,14 @@
 #include "BildController.h"
-
-#include "BildModell.h"
+#include "BildModel.h"
 #include "BildView.h"
 #include "Befehlrotieren.h"
 #include "Befehlskalieren.h"
 
 #include <QUndoStack>
-#include <QRubberBand>
-#include <QVector2D>
 
-BildController::BildController(BildModell* modell, QUndoStack* undostack ,BildView* view, QObject *parent):
+BildController::BildController(BildModel* model, QUndoStack* undostack ,BildView* view, QObject *parent):
     QObject(parent),
-    pmodell(modell),
+    pmodel(model),
     pview(view),
     undostack(undostack)
 {
@@ -52,7 +49,7 @@ void BildController::mousePressEvent(QMouseEvent *event)
 void BildController::mouseMoveEvent(QMouseEvent *event)
 {
     QPointF magnifierPosition = event->pos();
-    QImage image = pmodell->getImage().copy(
+    QImage image = pmodel->getImage().copy(
         magnifierPosition.x() - 25, // Anpassen des Ausschnitts in der Lupe
         magnifierPosition.y() - 25, // Anpassen des Ausschnitts in der Lupe
         200, // Größe des Ausschnitts in der Lupe anpassen
@@ -73,64 +70,60 @@ void BildController::keyPressEvent(QKeyEvent* event)
     {
     case Qt::Key_Plus:
     {
-        int scalefactor = pmodell->getScaleFactor()  + 1;
+        int scalefactor = pmodel->getScaleFactor()  + 1;
         scalefactor = this->adaptScaleFactor(scalefactor);
         this->pushScaleToStack(scalefactor);
         break;
     }
     case Qt::Key_Minus:
     {
-        int scalefactor = pmodell->getScaleFactor() -1;
+        int scalefactor = pmodel->getScaleFactor() -1;
         scalefactor = this->adaptScaleFactor(scalefactor);
         this->pushScaleToStack(scalefactor);
         break;
     }
     case Qt::Key_Up:
     {
-        int rotationfactor = pmodell->getRotationFactor() + 180;
+        int rotationfactor = pmodel->getRotationFactor() + 180;
         rotationfactor = this->adaptRotationFactor(rotationfactor);
         this->pushRotationToStack(rotationfactor);
         break;
     }
     case Qt::Key_Down:
     {
-        int rotationfactor = pmodell->getRotationFactor() - 180;
+        int rotationfactor = pmodel->getRotationFactor() - 180;
         rotationfactor = this->adaptRotationFactor(rotationfactor);
         this->pushRotationToStack(rotationfactor);
         break;
     }
     case Qt::Key_Left:
     {
-        int rotationfactor = pmodell->getRotationFactor() - 90;
+        int rotationfactor = pmodel->getRotationFactor() - 90;
         rotationfactor = this->adaptRotationFactor(rotationfactor);
         this->pushRotationToStack(rotationfactor);
         break;
     }
     case Qt::Key_Right:
     {
-        int rotationfactor = pmodell->getRotationFactor() + 90;
+        int rotationfactor = pmodel->getRotationFactor() + 90;
         rotationfactor = this->adaptRotationFactor(rotationfactor);
-        auto cmd = new Befehlrotieren(pmodell, rotationfactor);
-        undostack->push(cmd);
+        this->pushRotationToStack(rotationfactor);
         break;
     }
     case Qt::Key_G:     //Greyscale
-        pmodell->grayscaleOnOff();
+        pmodel->grayscaleOnOff();
         break;
 
     case Qt::Key_E:     //Edgedetection
-        pmodell->edgeDetektionOnOff();
+        pmodel->edgeDetectionOnOff();
         break;
 
     case Qt::Key_Backspace:    //reset
-        pmodell->resetImage();
-        break;
-
-    case Qt::Key_Escape:        //close
+        pmodel->resetImage();
         break;
 
     case Qt::Key_Return: //save
-        pmodell->save();
+        pmodel->save();
         break;
     }
 }
@@ -162,12 +155,12 @@ bool BildController::eventFilter(QObject *watched, QEvent *event)
 
 void BildController::pushRotationToStack(int rotationFactor)
 {
-    auto cmd = new Befehlrotieren(pmodell, rotationFactor);
+    auto cmd = new Befehlrotieren(pmodel, rotationFactor);
     undostack->push(cmd);
 }
 
 void BildController::pushScaleToStack(int scaleFactor)
 {
-    auto cmd = new Befehlskalieren(pmodell, scaleFactor);
+    auto cmd = new Befehlskalieren(pmodel, scaleFactor);
     undostack->push(cmd);
 }

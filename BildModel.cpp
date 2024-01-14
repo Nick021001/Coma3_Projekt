@@ -1,7 +1,6 @@
-#include "BildModell.h"
+#include "BildModel.h"
 #include "SobelOperator.h"
 #include <QErrorMessage>
-#include <qdebug.h>
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -10,37 +9,37 @@ namespace
 constexpr double pi = 3.14159265358979323846;
 }
 
-const QImage& BildModell::getImage() const
+const QImage& BildModel::getImage() const
 {
     return image;
 }
 
-const QRect& BildModell::getRect() const
+const QRect& BildModel::getRect() const
 {
     return rectImage;
 }
 
-int BildModell::getRotationFactor() const
+int BildModel::getRotationFactor() const
 {
     return rotationFactor;
 }
 
-int BildModell::getScaleFactor() const
+int BildModel::getScaleFactor() const
 {
     return scaleFactor;
 }
 
-void BildModell::setRotationFactor(int rotationFac)
+void BildModel::setRotationFactor(int rotationFac)
 {
     rotationFactor = rotationFac;
 }
 
-void BildModell::setScaleFactor(int scaleFac)
+void BildModel::setScaleFactor(int scaleFac)
 {
     scaleFactor = scaleFac;
 }
 
-bool BildModell::upload() {
+bool BildModel::upload() {
     QString filePath = QFileDialog::getOpenFileName(nullptr, tr("Bild öffnen"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
         if (!filePath.isEmpty())
     {
@@ -48,7 +47,7 @@ bool BildModell::upload() {
         image = ImageInput;
         rectImage = ImageInput.rect();
 
-        emit BildModell::imageChanged();
+        emit BildModel::imageChanged();
         return true;
     }
     else{
@@ -58,7 +57,7 @@ bool BildModell::upload() {
     return false;
 }
 
-bool BildModell::save() {
+bool BildModel::save() {
     QString filename = QFileDialog::getSaveFileName(nullptr, tr("Bild speichern"), "", tr("Bilder (*.png *.jpg *.jpeg)"));
     if (!filename.isEmpty()) {
         if (image.isNull()) {
@@ -79,7 +78,7 @@ bool BildModell::save() {
 
 //public slots
 
-QPoint BildModell::cornerMinMax() const
+QPoint BildModel::cornerMinMax() const
 {
     QPoint topleft = rectImage.topLeft();
     QPoint topright = rectImage.topRight();
@@ -104,7 +103,7 @@ QPoint BildModell::cornerMinMax() const
     return QPoint(xmin, ymin);
 }
 
-void BildModell::checkCurrentTransformations()
+void BildModel::checkCurrentTransformations()
 {
 
     if (edgeDetektionOn == true)
@@ -114,7 +113,7 @@ void BildModell::checkCurrentTransformations()
         this->grayscale();
 }
 
-void BildModell::affineTransformation()
+void BildModel::affineTransformation()
 {
     double rad = rotationFactor * pi/180;
     QTransform transformationMatrix;
@@ -124,28 +123,28 @@ void BildModell::affineTransformation()
     image = ImageInput.transformed(transformationMatrix); //Transformation des Bildes.
 }
 
-void BildModell::performTransformation()
+void BildModel::performTransformation()
 {
 
     this->affineTransformation();
     this->checkCurrentTransformations();
 
-    emit BildModell::imageChanged();
+    emit BildModel::imageChanged();
 }
-void BildModell::scaleImage(int scale)
+void BildModel::scaleImage(int scale)
 {
     this->setScaleFactor(scale);
     performTransformation();
 }
 
-void BildModell::rotateImage(int degree)
+void BildModel::rotateImage(int degree)
 {
     this->setRotationFactor(degree);
     performTransformation();
 }
 
 
-void BildModell::grayscaleOnOff()
+void BildModel::grayscaleOnOff()
 {
     if (isGrayScale == false)
     {
@@ -160,13 +159,13 @@ void BildModell::grayscaleOnOff()
     }
 }
 
-void BildModell::grayscale()
+void BildModel::grayscale()
 {
     image = image.convertToFormat(QImage::Format_Grayscale8);
-    emit BildModell::imageChanged();
+    emit BildModel::imageChanged();
 }
 
- void BildModell::edgeDetektionOnOff()
+ void BildModel::edgeDetectionOnOff()
 {
     if (edgeDetektionOn == false)
     {
@@ -181,20 +180,20 @@ void BildModell::grayscale()
     }
 }
 
-void BildModell::edgeDetektion()
+void BildModel::edgeDetektion()
 {
 
     SobelOperator edgeImage(this->image);
     image = edgeImage.applySobel();
-    emit BildModell::imageChanged();
+    emit BildModel::imageChanged();
 }
 
-void BildModell::resetImage()
+void BildModel::resetImage()
 {
     image = ImageInput;
     rectImage = ImageInput.rect();
     edgeDetektionOn = false;
     isGrayScale = false;
-    emit BildModell::imageChanged();
+    emit BildModel::imageChanged();
 }
 

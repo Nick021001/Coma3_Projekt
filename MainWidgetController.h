@@ -1,7 +1,7 @@
 #ifndef MAINWIDGETCONTROLLER_H
 #define MAINWIDGETCONTROLLER_H
 
-#include "BildModell.h"
+#include "BildModel.h"
 #include "BildView.h"
 
 #include <QUndoStack>
@@ -10,21 +10,21 @@
 class Mainwidgetcontroller: public QObject
 {
     Q_OBJECT
-    BildModell* pmodell;
+    BildModel* pmodel;
     BildView* pview;
     QUndoStack* undostack = nullptr;
 
 public slots:
-    void pushRotationAfterRealse(int rotationFactor);
-    void pushScaleafterChange(int scaleFactor);
+    void pushRotationAfterRelease(int rotationFactor);
+    void pushScaleAfterChange(int scaleFactor);
     void setGreyScaleOnOff();
-    void setEdgeDeketionOnOff();
+    void setEdgeDetectionOnOff();
     void setResetImage();
     void uploadImage();
     void saveImage();
 
 public:
-    Mainwidgetcontroller(BildModell* modell, QUndoStack* undostack ,BildView* view, QObject *parent);
+    Mainwidgetcontroller(BildModel* model, QUndoStack* undostack ,BildView* view, QObject *parent);
 };
 
 #endif // MAINWIDGETCONTROLLER_H

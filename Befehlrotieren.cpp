@@ -1,21 +1,21 @@
 #include "Befehlrotieren.h"
 
-Befehlrotieren::Befehlrotieren(BildModell* modell, int rotationFactor)
-    :oldRotationFactor(modell->getRotationFactor()),
+Befehlrotieren::Befehlrotieren(BildModel* model, int rotationFactor)
+    :oldRotationFactor(model->getRotationFactor()),
     newRotationFactor(rotationFactor)
-    ,modell(modell)
+    ,model(model)
 {
     setText(QString("The picture has rotated %1 degrees").arg(rotationFactor));
 }
 
 void Befehlrotieren::undo()
 {
-    modell->rotateImage(oldRotationFactor);
+    model->rotateImage(oldRotationFactor);
 }
 
 void Befehlrotieren::redo()
 {
-    modell->rotateImage(newRotationFactor);
+    model->rotateImage(newRotationFactor);
 }
 
 int Befehlrotieren::id() const
