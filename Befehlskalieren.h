@@ -2,16 +2,16 @@
 #define BEFEHLSKALIEREN_H
 
 #include <QUndoCommand>
-#include "BildModell.h"
+#include "BildModel.h"
 
 class Befehlskalieren: public QUndoCommand
 {
     int oldScaleFactor = 1;
     int newScaleFactor;
-    BildModell* pmodell;
+    BildModel* pmodel;
 
 public:
-    Befehlskalieren(BildModell* modell, int scaleFactor);
+    Befehlskalieren(BildModel* model, int scaleFactor);
 
     void undo() override;
     void redo() override;

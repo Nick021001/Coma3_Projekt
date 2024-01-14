@@ -23,8 +23,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Coma3_Projekt
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        BildModell.h
-        BildModell.cpp
+        BildModel.h
+        BildModel.cpp
         BildView.h
         BildController.h
         BildController.cpp

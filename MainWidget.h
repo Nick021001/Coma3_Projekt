@@ -1,16 +1,15 @@
 #ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
-#include <QWidget>
 #include <QMainWindow>
 
-class BildModell;
+class BildModel;
 
 class MainWidget : public QMainWindow
 {
     Q_OBJECT
 
-    BildModell* bildModell;
+    BildModel* bildModel;
 
 public:
     MainWidget();

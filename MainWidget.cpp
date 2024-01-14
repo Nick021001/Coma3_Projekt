@@ -1,5 +1,5 @@
 #include "MainWidget.h"
-#include "BildModell.h"
+#include "BildModel.h"
 #include "BildController.h"
 #include "BildView.h"
 #include "MainWidgetController.h"
@@ -19,6 +19,7 @@
 #include <QUndoView>
 #include <QIcon>
 #include <QScrollArea>
+#include <QWidget>
 
 
 MainWidget::MainWidget()
@@ -125,18 +126,18 @@ MainWidget::MainWidget()
 
     QUndoStack* undostack = new QUndoStack;
 
-    bildModell = new BildModell(this);
-    BildView* view = new BildView(*bildModell, this);
-    BildController* controller = new BildController(bildModell, undostack ,view, this);
-    Mainwidgetcontroller* mainwidgetcontroller = new Mainwidgetcontroller(bildModell, undostack, view, this);
+    bildModel = new BildModel(this);
+    BildView* view = new BildView(*bildModel, this);
+    BildController* controller = new BildController(bildModel, undostack ,view, this);
+    Mainwidgetcontroller* mainwidgetcontroller = new Mainwidgetcontroller(bildModel, undostack, view, this);
 
-    connect(scale_spinbox, &QSpinBox::valueChanged, mainwidgetcontroller, &Mainwidgetcontroller::pushScaleafterChange);
+    connect(scale_spinbox, &QSpinBox::valueChanged, mainwidgetcontroller, &Mainwidgetcontroller::pushScaleAfterChange);
 
-    connect(rotate_slider, &QSlider::valueChanged, mainwidgetcontroller, &Mainwidgetcontroller::pushRotationAfterRealse);
+    connect(rotate_slider, &QSlider::valueChanged, mainwidgetcontroller, &Mainwidgetcontroller::pushRotationAfterRelease);
 
     connect(grayscale_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::setGreyScaleOnOff);
 
-    connect(edge_detection_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::setEdgeDeketionOnOff);
+    connect(edge_detection_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::setEdgeDetectionOnOff);
 
     connect(reset_button, &QPushButton::clicked, mainwidgetcontroller, &Mainwidgetcontroller::setResetImage);
 

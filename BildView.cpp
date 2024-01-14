@@ -1,17 +1,15 @@
 #include "BildView.h"
-#include "BildModell.h"
-
-#include <QRectF>
+#include "BildModel.h"
 #include <QPainter>
 
-BildView::BildView(BildModell& modell, QWidget* parent): QWidget(parent), pmodell(modell)
+BildView::BildView(BildModel& model, QWidget* parent): QWidget(parent), pmodel(model)
 {
-    connect(&modell, &BildModell::imageChanged, this, QOverload<>::of(&QWidget::update));
+    connect(&model, &BildModel::imageChanged, this, QOverload<>::of(&QWidget::update));
     this->setFocusPolicy(Qt::StrongFocus);
 }
 
 void BildView::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
-    p.drawImage(pmodell.getRect(), pmodell.getImage());
+    p.drawImage(pmodel.getRect(), pmodel.getImage());
 }

@@ -2,46 +2,46 @@
 #include "Befehlrotieren.h"
 #include "Befehlskalieren.h"
 
-Mainwidgetcontroller::Mainwidgetcontroller(BildModell* modell, QUndoStack* undostack ,BildView* view, QObject *parent):
+Mainwidgetcontroller::Mainwidgetcontroller(BildModel* model, QUndoStack* undostack ,BildView* view, QObject *parent):
     QObject(parent),
-    pmodell(modell),
+    pmodel(model),
     pview(view),
     undostack(undostack)
 {}
 
-void Mainwidgetcontroller::pushRotationAfterRealse(int rotationFactor)
+void Mainwidgetcontroller::pushRotationAfterRelease(int rotationFactor)
 {
-    auto cmd = new Befehlrotieren(pmodell, rotationFactor);
+    auto cmd = new Befehlrotieren(pmodel, rotationFactor);
     undostack->push(cmd);
 }
 
-void Mainwidgetcontroller::pushScaleafterChange(int scaleFactor)
+void Mainwidgetcontroller::pushScaleAfterChange(int scaleFactor)
 {
-    auto cmd = new Befehlskalieren(pmodell, scaleFactor);
+    auto cmd = new Befehlskalieren(pmodel, scaleFactor);
     undostack->push(cmd);
 }
 
 void Mainwidgetcontroller::setGreyScaleOnOff()
 {
-    pmodell->grayscaleOnOff();
+    pmodel->grayscaleOnOff();
 }
 
-void Mainwidgetcontroller::setEdgeDeketionOnOff()
+void Mainwidgetcontroller::setEdgeDetectionOnOff()
 {
-    pmodell->edgeDetektionOnOff();
+    pmodel->edgeDetectionOnOff();
 }
 
 void Mainwidgetcontroller::setResetImage()
 {
-    pmodell->resetImage();
+    pmodel->resetImage();
 }
 
 void Mainwidgetcontroller::uploadImage()
 {
-    pmodell->upload();
+    pmodel->upload();
 }
 
 void Mainwidgetcontroller::saveImage()
 {
-    pmodell->save();
+    pmodel->save();
 }

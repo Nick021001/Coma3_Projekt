@@ -1,17 +1,17 @@
 #ifndef BEFEHLROTIEREN_H
 #define BEFEHLROTIEREN_H
 
-#include "BildModell.h"
+#include "BildModel.h"
 #include <QUndoCommand>
 
 class Befehlrotieren: public QUndoCommand
 {
     int oldRotationFactor = 0;
     int newRotationFactor;
-    BildModell* modell = nullptr;
+    BildModel* model = nullptr;
 
 public:
-    Befehlrotieren(BildModell* modell, int rotationFactor);
+    Befehlrotieren(BildModel* model, int rotationFactor);
 
     void undo() override;
     void redo() override;
