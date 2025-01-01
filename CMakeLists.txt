@@ -44,6 +44,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         icons.qrc
         MainWidgetController.h
         MainWidgetController.cpp
+        gaussianoperator.h gaussianoperator.cpp
+        GaussianOperator.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET Coma3_Projekt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
