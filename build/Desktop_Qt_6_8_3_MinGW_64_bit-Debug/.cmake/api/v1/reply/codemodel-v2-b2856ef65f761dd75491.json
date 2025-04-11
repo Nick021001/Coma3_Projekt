@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-d737b8e9fbc248edac02.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Coma3_Projekt",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Coma3_Projekt::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Coma3_Projekt-Debug-92a84461be796fe1880c.json",
+					"name" : "Coma3_Projekt",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Coma3_Projekt_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Coma3_Projekt_autogen-Debug-78d0388cc49d720ef30d.json",
+					"name" : "Coma3_Projekt_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Coma3_Projekt_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Coma3_Projekt_autogen_timestamp_deps-Debug-777aa779fdc3f9c26870.json",
+					"name" : "Coma3_Projekt_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug",
+		"source" : "D:/Coma3_Projekt"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

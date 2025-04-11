@@ -1,0 +1,26 @@
+# ninja log v6
+36	5818	7647090200719116	Coma3_Projekt_autogen/timestamp	985859cd44c1362f
+36	5818	7647090200719116	Coma3_Projekt_autogen/mocs_compilation.cpp	985859cd44c1362f
+36	5818	7647090200719116	D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Coma3_Projekt_autogen/timestamp	985859cd44c1362f
+36	5818	7647090200719116	D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Coma3_Projekt_autogen/mocs_compilation.cpp	985859cd44c1362f
+5838	6369	7647090209884241	Coma3_Projekt_autogen/EWIEGA46WW/qrc_icons.cpp	2113c28bdcb38fde
+5838	6369	7647090209884241	D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Coma3_Projekt_autogen/EWIEGA46WW/qrc_icons.cpp	2113c28bdcb38fde
+6499	17690	7647090211581304	CMakeFiles/Coma3_Projekt.dir/SobelOperator.cpp.obj	77ebef76aba4d3af
+6543	18817	7647090212015565	CMakeFiles/Coma3_Projekt.dir/Befehlskalieren.cpp.obj	8400bbf3f8001cf
+6522	19841	7647090211794322	CMakeFiles/Coma3_Projekt.dir/Befehlrotieren.cpp.obj	cc03b7adf45d9881
+18818	22367	7647090334774396	CMakeFiles/Coma3_Projekt.dir/Coma3_Projekt_autogen/EWIEGA46WW/qrc_icons.cpp.obj	77aac375e27d59ba
+6565	25222	7647090212233935	CMakeFiles/Coma3_Projekt.dir/MainWidgetController.cpp.obj	b17667e17d40aab7
+6392	25307	7647090210499712	CMakeFiles/Coma3_Projekt.dir/main.cpp.obj	3b1ffd32f46aa6f9
+6434	25617	7647090210930679	CMakeFiles/Coma3_Projekt.dir/BildController.cpp.obj	af8e53c49670ade5
+6370	27372	7647090210289509	CMakeFiles/Coma3_Projekt.dir/Coma3_Projekt_autogen/mocs_compilation.cpp.obj	f0f6891e39f8d767
+6456	28056	7647090211148002	CMakeFiles/Coma3_Projekt.dir/BildView.cpp.obj	598ce722416bb2d1
+6478	30050	7647090211357927	CMakeFiles/Coma3_Projekt.dir/MainWidget.cpp.obj	d45149ece422826f
+6413	30160	7647090210710660	CMakeFiles/Coma3_Projekt.dir/BildModel.cpp.obj	d25e0bd6f6d77c5d
+17691	30523	7647090323501723	CMakeFiles/Coma3_Projekt.dir/gaussianoperator.cpp.obj	8c6bf55f15da8cd7
+30524	32901	7647090451832797	Coma3_Projekt.exe	c9abb1c69148e837
+37	576	7647099175014569	Coma3_Projekt_autogen/timestamp	985859cd44c1362f
+37	576	7647099175014569	Coma3_Projekt_autogen/mocs_compilation.cpp	985859cd44c1362f
+37	576	7647099175014569	D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Coma3_Projekt_autogen/timestamp	985859cd44c1362f
+37	576	7647099175014569	D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Coma3_Projekt_autogen/mocs_compilation.cpp	985859cd44c1362f
+578	8441	7647099180501591	CMakeFiles/Coma3_Projekt.dir/MainWidget.cpp.obj	d45149ece422826f
+8441	9359	7647099259136411	Coma3_Projekt.exe	c9abb1c69148e837

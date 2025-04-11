@@ -1,0 +1,30 @@
+{
+	"BUILD_DIR" : "D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Coma3_Projekt_autogen",
+	"CMAKE_BINARY_DIR" : "D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "D:/Coma3_Projekt",
+	"CMAKE_SOURCE_DIR" : "D:/Coma3_Projekt",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/Coma3_Projekt_autogen/include",
+	"INPUTS" : 
+	[
+		"D:/Coma3_Projekt/redo.png",
+		"D:/Coma3_Projekt/undo.jpeg",
+		"D:/Coma3_Projekt/help.jpeg",
+		"D:/Coma3_Projekt/reset.jpeg",
+		"D:/Coma3_Projekt/upload.jpeg",
+		"D:/Coma3_Projekt/save.jpeg"
+	],
+	"LOCK_FILE" : "D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/CMakeFiles/Coma3_Projekt_autogen.dir/AutoRcc_icons_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "icons" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_icons.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/6.8.3/mingw_64/bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "D:/Coma3_Projekt/build/Desktop_Qt_6_8_3_MinGW_64_bit-Debug/CMakeFiles/Coma3_Projekt_autogen.dir/AutoRcc_icons_EWIEGA46WW_Used.txt",
+	"SOURCE" : "D:/Coma3_Projekt/icons.qrc",
+	"USE_BETTER_GRAPH" : true,
+	"VERBOSITY" : 0
+}
